@@ -14,14 +14,12 @@ public class Transaction {
 	private int totalPrice;
 	private List<TransactionItem> listTransactionItem;
 	
-	public Transaction(int transactionID, LocalDate purchaseDate, int voucherID, int employeeID, int totalPrice,
-			List<TransactionItem> listTransactionItem) {
+	public Transaction(int transactionID, LocalDate purchaseDate, int voucherID, int employeeID, int totalPrice) {
 		this.transactionID = transactionID;
 		this.purchaseDate = purchaseDate;
 		this.voucherID = voucherID;
 		this.employeeID = employeeID;
 		this.totalPrice = totalPrice;
-		this.listTransactionItem = listTransactionItem;
 	}
 
 	public Transaction() {	}
