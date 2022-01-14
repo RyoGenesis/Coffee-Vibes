@@ -9,11 +9,11 @@ public class ProductHandler {
 
 	public static ProductHandler productHandler = null;
 	public Product product;
-	private String errorMessage;
+	private String message;
 
 	public ProductHandler() {
 		product = new Product();
-		errorMessage = "";
+		message = "";
 	}
 	
 	public static ProductHandler getInstance() {
@@ -27,8 +27,8 @@ public class ProductHandler {
 		return product.getAllProducts();
 	}
 	
-	public String getErrorMessage() {
-		return errorMessage;
+	public String getMessage() {
+		return message;
 	}
 	
 	//**UNFINISHED**
@@ -37,105 +37,107 @@ public class ProductHandler {
 	}
 	
 	public Product insertProduct(String name, String description, String price, String stock) {
-		errorMessage = "";
+		message = "";
 		if(name.equals("")) {
-			errorMessage += "Name cannot be empty! ";
+			message += "Name cannot be empty! ";
 		}
 		if(description.equals("")) {
-			errorMessage += "Description cannot be empty! ";
+			message += "Description cannot be empty! ";
 		}
 		int intPrice = 0;
 		if(price.equals("")) {
-			errorMessage += "Price cannot be empty! ";
+			message += "Price cannot be empty! ";
 		}
 		else {
 			boolean canParse = true;
 			try {
 				intPrice = Integer.parseInt(price);
 			} catch (NumberFormatException e) {
-				errorMessage += "Price must be numeric! ";
+				message += "Price must be numeric! ";
 				canParse = false;
 			}
 			if(canParse) {
 				if(intPrice < 1) {
-					errorMessage += "Price cannot be less than one! ";
+					message += "Price cannot be less than one! ";
 				}
 			}
 		}
 		int intStock = 0;
 		if(stock.equals("")) {
-			errorMessage += "Stock cannot be empty! ";
+			message += "Stock cannot be empty! ";
 		}
 		else {
 			boolean canParse = true;
 			try {
 				intStock = Integer.parseInt(stock);
 			} catch (NumberFormatException e) {
-				errorMessage += "Stock must be numeric! ";
+				message += "Stock must be numeric! ";
 				canParse = false;
 			}
 			if(canParse) {
 				if(intStock < 0) {
-					errorMessage += "Stock cannot be less than zero! ";
+					message += "Stock cannot be less than zero! ";
 				}
 			}
 		}
 		
-		if(errorMessage.equals("")) {
+		if(message.equals("")) {
 			product = new Product(name, description, intPrice, intStock);
+			message = "Successfully Inserted!";
 			return product.insertNewProduct();
 		}
 		return null;
 	}
 	
 	public Product updateProduct(String productID, String name, String description, String price) {
-		errorMessage = "";
+		message = "";
 		int intID = 0;
 		if(productID.equals("")) {
-			errorMessage += "ID cannot be empty! ";
+			message += "ID cannot be empty! ";
 		}
 		else {
 			boolean canParse = true;
 			try {
 				intID = Integer.parseInt(productID);
 			} catch (NumberFormatException e) {
-				errorMessage += "ID must be numeric! ";
+				message += "ID must be numeric! ";
 				canParse = false;
 			}
 			if(canParse) {
 				Product p = getProduct(intID);
 				if(p == null) {
-					errorMessage += "ID is not exist in database! ";
+					message += "ID is not exist in database! ";
 				}
 			}
 		}
 		if(name.equals("")) {
-			errorMessage += "Name cannot be empty! ";
+			message += "Name cannot be empty! ";
 		}
 		if(description.equals("")) {
-			errorMessage += "Description cannot be empty! ";
+			message += "Description cannot be empty! ";
 		}
 		int intPrice = 0;
 		if(price.equals("")) {
-			errorMessage += "Price cannot be empty! ";
+			message += "Price cannot be empty! ";
 		}
 		else {
 			boolean canParse = true;
 			try {
 				intPrice = Integer.parseInt(price);
 			} catch (NumberFormatException e) {
-				errorMessage += "Price must be numeric! ";
+				message += "Price must be numeric! ";
 				canParse = false;
 			}
 			if(canParse) {
 				if(intPrice < 1) {
-					errorMessage += "Price cannot be less than one! ";
+					message += "Price cannot be less than one! ";
 				}
 			}
 		}
 		
-		if(errorMessage.equals("")) {
+		if(message.equals("")) {
 			product = new Product(intID, name, description, intPrice);
+			message = "Successfully Updated!";
 			return product.updateProduct();
 		}
 		return null;
@@ -147,29 +149,30 @@ public class ProductHandler {
 	}
 	
 	public boolean deleteProduct(String productID) {
-		errorMessage = "";
+		message = "";
 		int intID = 0;
 		if(productID.equals("")) {
-			errorMessage += "ID cannot be empty! ";
+			message += "ID cannot be empty! ";
 		}
 		else {
 			boolean canParse = true;
 			try {
 				intID = Integer.parseInt(productID);
 			} catch (NumberFormatException e) {
-				errorMessage += "ID must be numeric! ";
+				message += "ID must be numeric! ";
 				canParse = false;
 			}
 			if(canParse) {
 				Product p = getProduct(intID);
 				if(p == null) {
-					errorMessage += "ID is not exist in database! ";
+					message += "ID is not exist in database! ";
 				}
 			}
 		}
 		
-		if(errorMessage.equals("")) {
+		if(message.equals("")) {
 			product = new Product(intID);
+			message = "Successfully Deleted!";
 			return product.deleteProduct();
 		}
 		return false;
