@@ -2,7 +2,6 @@ package models;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Vector;
 
@@ -23,6 +22,27 @@ public class Product {
 		this.description = description;
 		this.price = price;
 		this.stock = stock;
+	}
+	
+	public Product(String name, String description, int price, int stock) {
+		super();
+		this.name = name;
+		this.description = description;
+		this.price = price;
+		this.stock = stock;
+	}
+
+	public Product(int productID, String name, String description, int price) {
+		super();
+		this.productID = productID;
+		this.name = name;
+		this.description = description;
+		this.price = price;
+	}
+	
+	public Product(int productID) {
+		super();
+		this.productID = productID;
 	}
 
 	public Product() {}
@@ -83,7 +103,19 @@ public class Product {
 	
 	//**UNFINISHED**
 	public Product insertNewProduct() {
-		return null;
+		Connect con =  Connect.getConnection();
+		Product product = new Product(name, description, price, stock);
+		try {
+			PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO product VALUES (?,?,?,?)");
+			preparedStatement.setString(1, name);
+			preparedStatement.setString(2, description);
+			preparedStatement.setInt(3, price);
+			preparedStatement.setInt(4, stock);
+			preparedStatement.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return product;
 	}
 	
 	public List<Product> getAllProducts() {
@@ -129,10 +161,30 @@ public class Product {
 	}
 	
 	public Product updateProduct() {
-		return null;
+		Connect con =  Connect.getConnection();
+		Product product = new Product(productID, name, description, price);
+		try {
+			PreparedStatement preparedStatement = con.prepareStatement("UPDATE product SET Name = ?, Description = ?, Price = ? WHERE ID = ?");
+			preparedStatement.setString(1, name);
+			preparedStatement.setString(2, description);
+			preparedStatement.setInt(3, price);
+			preparedStatement.setInt(4, productID);
+			preparedStatement.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return product;
 	}
 	
 	public boolean deleteProduct() {
+		Connect con =  Connect.getConnection();
+		try {
+			PreparedStatement preparedStatement = con.prepareStatement("DELETE FROM product WHERE ID = ?");
+			preparedStatement.setInt(1, productID);
+			return preparedStatement.executeUpdate() == 1;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		return false;
 	}
 	
