@@ -149,10 +149,13 @@ public class ProductManagementFormView extends JFrame implements ActionListener{
 		String desc = descTxt.getText();
 		String price = priceTxt.getText();
 		
-		Product p = ProductHandler.getInstance().updateProduct(id, name, desc, price);
-		JOptionPane.showMessageDialog(this, ProductHandler.getInstance().getMessage());
-		if(p != null) {
-			loadData();
+		int dialog = JOptionPane.showConfirmDialog(this, "Confirm Update?");
+		if(dialog == JOptionPane.YES_OPTION) {
+			Product p = ProductHandler.getInstance().updateProduct(id, name, desc, price);
+			JOptionPane.showMessageDialog(this, ProductHandler.getInstance().getMessage());
+			if(p != null) {
+				loadData();
+			}
 		}
 	}
 
