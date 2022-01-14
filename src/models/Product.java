@@ -104,17 +104,17 @@ public class Product {
 	//**UNFINISHED**
 	public Product insertNewProduct() {
 		Connect con =  Connect.getConnection();
-		Product product = new Product(name, description, price, stock);
 		try {
-			PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO product VALUES (?,?,?,?)");
+			PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO product VALUES(default,?,?,?,?)");
 			preparedStatement.setString(1, name);
 			preparedStatement.setString(2, description);
 			preparedStatement.setInt(3, price);
 			preparedStatement.setInt(4, stock);
-			preparedStatement.executeUpdate();
+			preparedStatement.execute();
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+		Product product = new Product(name, description, price, stock);
 		return product;
 	}
 	

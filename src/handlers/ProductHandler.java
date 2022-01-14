@@ -142,6 +142,7 @@ public class ProductHandler {
 	}
 	
 	public Product updateProductStock(int productID, int stock) {
+		//BARISTA
 		return null;
 	}
 	
