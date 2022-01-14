@@ -138,12 +138,9 @@ public class ProductManagementFormView extends JFrame implements ActionListener{
 		String stock = stockTxt.getText(); 
 		
 		Product p = ProductHandler.getInstance().insertProduct(name, desc, price, stock);
+		JOptionPane.showMessageDialog(this, ProductHandler.getInstance().getMessage());
 		if(p != null) {
-			JOptionPane.showMessageDialog(this, "Successfully Inserted!");
 			loadData();
-		}
-		else {
-			JOptionPane.showMessageDialog(this, ProductHandler.getInstance().getErrorMessage());
 		}
 	}
 
@@ -154,12 +151,9 @@ public class ProductManagementFormView extends JFrame implements ActionListener{
 		String price = priceTxt.getText();
 		
 		Product p = ProductHandler.getInstance().updateProduct(id, name, desc, price);
+		JOptionPane.showMessageDialog(this, ProductHandler.getInstance().getMessage());
 		if(p != null) {
-			JOptionPane.showMessageDialog(this, "Successfully Updated!");
 			loadData();
-		}
-		else {
-			JOptionPane.showMessageDialog(this, ProductHandler.getInstance().getErrorMessage());
 		}
 	}
 
@@ -167,12 +161,9 @@ public class ProductManagementFormView extends JFrame implements ActionListener{
 		String id = idTxt.getText();
 		
 		boolean p = ProductHandler.getInstance().deleteProduct(id);
+		JOptionPane.showMessageDialog(this, ProductHandler.getInstance().getMessage());
 		if(p) {
-			JOptionPane.showMessageDialog(this, "Successfully Deleted!");
 			loadData();
-		}
-		else {
-			JOptionPane.showMessageDialog(this, ProductHandler.getInstance().getErrorMessage());
 		}
 	}
 
