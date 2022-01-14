@@ -23,15 +23,14 @@ public class ProductHandler {
 		return productHandler;
 	}
 	
+	public String getMessage() {
+		return message;
+	}
+
 	public List<Product> getAllProducts(){
 		return product.getAllProducts();
 	}
 	
-	public String getMessage() {
-		return message;
-	}
-	
-	//**UNFINISHED**
 	public Product getProduct(int productID) {
 		return product.getProduct(productID);
 	}
@@ -181,6 +180,4 @@ public class ProductHandler {
 	public void viewProductManagementForm() {
 		new ProductManagementFormView();
 	}
-	//**UNFINISHED**
-
 }
