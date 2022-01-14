@@ -160,10 +160,14 @@ public class ProductManagementFormView extends JFrame implements ActionListener{
 	private void deleteProduct() {
 		String id = idTxt.getText();
 		
-		boolean p = ProductHandler.getInstance().deleteProduct(id);
-		JOptionPane.showMessageDialog(this, ProductHandler.getInstance().getMessage());
-		if(p) {
-			loadData();
+		int dialog = JOptionPane.showConfirmDialog(this, "Confirm Delete?");
+		if(dialog == JOptionPane.YES_OPTION) {
+			boolean p = ProductHandler.getInstance().deleteProduct(id);
+			JOptionPane.showMessageDialog(this, ProductHandler.getInstance().getMessage());
+			if(p) {
+				loadData();
+			}
+			
 		}
 	}
 
