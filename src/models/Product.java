@@ -1,8 +1,12 @@
 package models;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Vector;
+
+import connect.Connect;
 
 public class Product {
 
@@ -63,19 +67,19 @@ public class Product {
 		this.stock = stock;
 	}
 	
-	private Product map(ResultSet rs) {
-		try {
-			// not finished, placeholder only
-			int id = rs.getInt("id");
-			String name = rs.getString("name");
-			
-			// not finished, placeholder only
-			return new Product();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+//	private Product map(ResultSet rs) {
+//		try {
+//			// not finished, placeholder only
+//			int id = rs.getInt("id");
+//			String name = rs.getString("name");
+//			
+//			// not finished, placeholder only
+//			return new Product();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		return null;
+//	}
 	
 	//**UNFINISHED**
 	public Product insertNewProduct() {
@@ -83,11 +87,45 @@ public class Product {
 	}
 	
 	public List<Product> getAllProducts() {
-		return null;
+		Connect con =  Connect.getConnection();
+		List<Product> products = new Vector<>();
+		try {
+			ResultSet resultSet = con.executeQuery("SELECT * FROM product");
+			while(resultSet.next()) {
+				int id = resultSet.getInt(1);
+				String name = resultSet.getString(2);
+				String description = resultSet.getString(3);
+				int price = resultSet.getInt(4);
+				int stock = resultSet.getInt(5);
+				
+				Product product = new Product(id, name, description, price, stock);
+				products.add(product);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return products;
 	}
 	
 	public Product getProduct(int productID) {
-		return null;
+		Connect con = Connect.getConnection();
+		Product product = null;
+		try {
+			PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM product WHERE ID = ?");
+			preparedStatement.setInt(1, productID);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			if(resultSet.next()) {
+				int id = resultSet.getInt(1);
+				String name = resultSet.getString(2);
+				String description = resultSet.getString(3);
+				int price = resultSet.getInt(4);
+				int stock = resultSet.getInt(5);
+				product = new Product(id, name, description, price, stock);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return product;
 	}
 	
 	public Product updateProduct() {
