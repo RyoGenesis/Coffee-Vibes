@@ -22,7 +22,6 @@ import models.Product;
 
 public class ProductManagementFormView extends JFrame implements ActionListener{
 
-	//**UNFINISHED**
 	private JLabel idLbl, nameLbl, descLbl, priceLbl, stockLbl;
 	private JTextField idTxt, nameTxt, descTxt, priceTxt, stockTxt;
 	private JButton insertBtn, updateBtn, deleteBtn;
