@@ -87,21 +87,6 @@ public class Product {
 		this.stock = stock;
 	}
 	
-//	private Product map(ResultSet rs) {
-//		try {
-//			// not finished, placeholder only
-//			int id = rs.getInt("id");
-//			String name = rs.getString("name");
-//			
-//			// not finished, placeholder only
-//			return new Product();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		return null;
-//	}
-	
-	//**UNFINISHED**
 	public Product insertNewProduct() {
 		Connect con =  Connect.getConnection();
 		try {
@@ -188,6 +173,4 @@ public class Product {
 		return false;
 	}
 	
-	//**UNFINISHED**
-
 }
