@@ -33,7 +33,6 @@ public class ProductManagementFormView extends JFrame implements ActionListener{
 	private JPanel contentPnl, formPnl, buttonPnl;
 	private JScrollPane tableScroll;
 	private String user;
-	private int productID;
 	Object[] columns = {"ID", "Name", "Description", "Price", "Stock"};
 	
 	private void init() {
@@ -69,10 +68,6 @@ public class ProductManagementFormView extends JFrame implements ActionListener{
 				descTxt.setText(desc);
 				priceTxt.setText(price + "");
 				stockTxt.setText(stock + "");
-				
-				if(user.equalsIgnoreCase("barista")) {
-					productID = id;
-				}
 			}
 		});
 	}
