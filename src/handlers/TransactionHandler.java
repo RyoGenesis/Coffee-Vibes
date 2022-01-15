@@ -11,6 +11,7 @@ public class TransactionHandler {
 	public static TransactionHandler transactionHandler = null;
 	public Transaction transaction;
 	private String errorMessage;
+	private String user;
 
 	public TransactionHandler() {
 		transaction = new Transaction();
@@ -24,6 +25,14 @@ public class TransactionHandler {
 		return transactionHandler;
 	}
 	
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+
 	public List<Transaction> getAllTransactions(){
 		return transaction.getAllTransactions();
 	}
@@ -42,7 +51,7 @@ public class TransactionHandler {
 	}
 	
 	public void viewTransactionManagementForm() {
-		new TransactionManagementFormView();
+		new TransactionManagementFormView(getUser());
 	}
 	//**UNFINISHED**
 
