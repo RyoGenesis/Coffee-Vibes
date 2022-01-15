@@ -4,6 +4,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Vector;
+
+import connect.Connect;
 
 public class Transaction {
 
@@ -95,7 +98,24 @@ public class Transaction {
 	}
 	
 	public List<Transaction> getAllTransactions() {
-		return null;
+		Connect con =  Connect.getConnection();
+		List<Transaction> transactions = new Vector<>();
+		try {
+			ResultSet resultSet = con.executeQuery("SELECT * FROM transactionheader");
+			while(resultSet.next()) {
+				int transactionID = resultSet.getInt(1);
+				LocalDate purchaseDate= resultSet.getDate(2).toLocalDate();
+				int voucherID = resultSet.getInt(3);
+				int employeeID = resultSet.getInt(4);
+				int totalPrice = resultSet.getInt(5);
+				
+				Transaction transaction = new Transaction(transactionID, purchaseDate, voucherID, employeeID, totalPrice);
+				transactions.add(transaction);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return transactions;
 	}
 	
 	public Transaction getTransactionDetail(int transactionID) {
