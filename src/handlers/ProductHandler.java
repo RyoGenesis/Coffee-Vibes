@@ -10,6 +10,7 @@ public class ProductHandler {
 	public static ProductHandler productHandler = null;
 	public Product product;
 	private String message;
+	private String user;
 
 	public ProductHandler() {
 		product = new Product();
@@ -23,6 +24,14 @@ public class ProductHandler {
 		return productHandler;
 	}
 	
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+
 	public String getMessage() {
 		return message;
 	}
@@ -178,6 +187,6 @@ public class ProductHandler {
 	}
 	
 	public void viewProductManagementForm() {
-		new ProductManagementFormView("productAdmin");
+		new ProductManagementFormView(getUser());
 	}
 }
