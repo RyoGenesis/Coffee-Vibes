@@ -9,6 +9,9 @@ public class Main {
 	public Main() {
 		//temporary
 //		AuthHandler.getInstance().viewLoginForm();
+//		ProductHandler.getInstance().setUser("productAdmin");
+//		ProductHandler.getInstance().viewProductManagementForm();
+		ProductHandler.getInstance().setUser("barista");
 		ProductHandler.getInstance().viewProductManagementForm();
 //		VoucherHandler.getInstance().viewVoucherManagementForm();
 	}
