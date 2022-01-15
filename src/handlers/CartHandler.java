@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Vector;
 import models.CartItem;
 import models.Product;
+import views.AddToCartFormView;
 import views.CartManagementFormView;
-import views.TransactionManagementFormView;
 
 public class CartHandler {
 	
@@ -18,6 +18,11 @@ public class CartHandler {
 		cartItem = new CartItem();
 		listItem = new Vector<CartItem>();
 		message = "";
+	}
+	
+	private int productID;
+	public CartHandler(int productID) {
+		this.productID = productID;
 	}
 	
 	public static CartHandler getInstance() {
@@ -36,27 +41,9 @@ public class CartHandler {
 	}
 	
 	Product product = null;
-	public CartItem addToCart(String productID, String quantity) {
+	public CartItem addToCart(int productID, String quantity) {
 		message = "";
-		int intProductId = 0;
-		if(productID.equals("")) {
-			message += "Product ID cannot be empty! ";
-		}
-		else {
-			boolean canParse = true;
-			try {
-				intProductId = Integer.parseInt(productID);
-			} catch (NumberFormatException e) {
-				message += "Product ID must be numeric! ";
-				canParse = false;
-			}
-			if(canParse) {
-				product = ProductHandler.getInstance().getProduct(intProductId);
-				if(product == null) {
-					message += "Product is not exist in database! ";
-				}
-			}
-		}
+		product = ProductHandler.getInstance().getProduct(productID);
 		int intQty = 0;
 		if(quantity.equals("")) {
 			message += "Quantity cannot be empty! ";
@@ -84,8 +71,8 @@ public class CartHandler {
 		}
 		
 		if(message.equals("")) {
-			if(getProduct(intProductId) != null) {
-				cartItem = updateCartProductQuantity(intProductId, intQty);
+			if(getProduct(productID) != null) {
+				cartItem = updateCartProductQuantity(productID, intQty);
 			}
 			else {
 				cartItem = new CartItem(product, intQty);
@@ -138,10 +125,10 @@ public class CartHandler {
 	}
 	
 	public void viewAddProductToCartForm() {
-		new CartManagementFormView();
+		new AddToCartFormView(productID);
 	}
 	
 	public void viewCheckoutForm() {
-		new TransactionManagementFormView();
+		new CartManagementFormView();
 	}
 }
