@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Vector;
 import models.CartItem;
 import models.Product;
-import views.AddProductToCartFormView;
+import views.CartManagementFormView;
 import views.CheckoutFormView;
 
 public class CartHandler {
@@ -60,7 +60,7 @@ public class CartHandler {
 	}
 	
 	public void viewAddProductToCartForm() {
-		new AddProductToCartFormView();
+		new CartManagementFormView();
 	}
 	
 	public void viewCheckoutForm() {
