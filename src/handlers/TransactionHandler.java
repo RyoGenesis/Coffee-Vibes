@@ -11,12 +11,12 @@ public class TransactionHandler {
 
 	public static TransactionHandler transactionHandler = null;
 	public Transaction transaction;
-	private String errorMessage;
+	private String message;
 	private String user;
 
 	public TransactionHandler() {
 		transaction = new Transaction();
-		errorMessage = "";
+		message = "";
 	}
 	
 	public static TransactionHandler getInstance() {
@@ -38,8 +38,8 @@ public class TransactionHandler {
 		return transaction.getAllTransactions();
 	}
 	
-	public String getErrorMessage() {
-		return errorMessage;
+	public String getMessage() {
+		return message;
 	}
 	
 	public List<TransactionItem> getTransactionDetail(int transactionID) {
@@ -47,53 +47,53 @@ public class TransactionHandler {
 	}
 	
 	public Transaction insertTransaction(String voucherID, String employeeID, String totalPayment) {
-		errorMessage = "";
+		message = "";
 		int intVoucherID = 0;
 		if(voucherID.equals("")) {
-			errorMessage += "Voucher ID cannot be empty! ";
+			message += "Voucher ID cannot be empty! ";
 		} else {
 			try {
 				intVoucherID = Integer.parseInt(voucherID);
 			} catch (NumberFormatException e) {
-				errorMessage += "Voucher ID must be numeric! ";
+				message += "Voucher ID must be numeric! ";
 
 			}
 		}
 		
 		int intEmployeeID = 0;
 		if(employeeID.equals("")) {
-			errorMessage += "Employee ID cannot be empty! ";
+			message += "Employee ID cannot be empty! ";
 		} else {
 			try {
 				intEmployeeID = Integer.parseInt(employeeID);
 			} catch (NumberFormatException e) {
-				errorMessage += "Employee ID must be numeric! ";
+				message += "Employee ID must be numeric! ";
 
 			}
 		}
 		
 		int intTotalPayment = 0;
 		if(totalPayment.equals("")) {
-			errorMessage += "Total Payment cannot be empty! ";
+			message += "Total Payment cannot be empty! ";
 		}
 		else {
 			boolean canParse = true;
 			try {
 				intTotalPayment = Integer.parseInt(totalPayment);
 			} catch (NumberFormatException e) {
-				errorMessage += "Total Payment must be numeric! ";
+				message += "Total Payment must be numeric! ";
 				canParse = false;
 			}
 			if(canParse) {
 				if(intTotalPayment < 1) {
-					errorMessage += "Total Payment cannot be less than one! ";
+					message += "Total Payment cannot be less than one! ";
 				}
 			}
 		}
 		
-		if(errorMessage.equals("")) {
+		if(message.equals("")) {
 			transaction = new Transaction(LocalDate.now(), intVoucherID, intEmployeeID, intTotalPayment);
-			errorMessage = "Successfully Inserted!";
+			message = "Successfully Inserted!";
 			return transaction.insertTransaction();
 		}
 		return null;
