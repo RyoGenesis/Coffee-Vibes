@@ -15,9 +15,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-
+import handlers.CartHandler;
 import handlers.TransactionHandler;
 import models.Transaction;
 import models.TransactionItem;
@@ -28,6 +29,7 @@ public class TransactionManagementFormView extends JFrame implements ActionListe
 	private JTable tableTransaction, tableTransactionItem;
 	private JLabel transactionTitleLbl, transactionIdLbl, purchaseDateLbl, voucherIdLbl, employeeIdLbl, priceLbl, totalPriceLbl;
 	private JLabel transactionIdTxt, purchaseDateTxt, priceTxt;
+	private JTextField voucherIdTxt, employeeIdTxt;
 	private JButton checkOutBtn;
 	private DefaultTableModel dtmTransaction, dtmTransactionItem;
 	private JPanel contentPnl, formPnl, buttonPnl, detailTransactionPnl , transactionPnl, transactionTitlePnl, transactionContentPnl;
@@ -48,7 +50,7 @@ public class TransactionManagementFormView extends JFrame implements ActionListe
 			loadTransactionHeaderData();
 		}
 		else {
-			setSize(250,250);
+			setSize(500,250);
 		}
 //		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -69,17 +71,25 @@ public class TransactionManagementFormView extends JFrame implements ActionListe
 	}
 	
 	private void makeForm() {
-		voucherIdLbl 
-		employeeIdLbl
+		voucherIdLbl = new JLabel("Voucher ID");
+		employeeIdLbl = new JLabel("Employee ID");
+		
+		voucherIdTxt = new JTextField();
+		employeeIdTxt = new JTextField();
 		
 		formPnl = new JPanel(new GridLayout(2,2));
+		formPnl.add(voucherIdLbl);
+		formPnl.add(voucherIdTxt);
+		formPnl.add(employeeIdLbl);
+		formPnl.add(employeeIdTxt);
 	}
 
 	private void makeButton() {
 		checkOutBtn = new JButton("Checkout");
+		checkOutBtn.addActionListener(this);
 		
-//		buttonPnl = new JPanel(new GridLayout(1, 2));
-//		buttonPnl.add(checkOutBtn);
+		buttonPnl = new JPanel(new GridLayout(1,1));
+		buttonPnl.add(checkOutBtn);
 	}
 
 	private void makeTransactionHeaderTable() {
@@ -155,6 +165,7 @@ public class TransactionManagementFormView extends JFrame implements ActionListe
 	}
 	
 	private void addComp() {
+		contentPnl = new JPanel(new BorderLayout());
 		if(user.equalsIgnoreCase("manager")) {
 			tableTransaction.addMouseListener(new MouseAdapter() {
 				@Override
@@ -177,14 +188,17 @@ public class TransactionManagementFormView extends JFrame implements ActionListe
 				}
 			});
 			
-			contentPnl = new JPanel(new BorderLayout());
 			contentPnl.add(BorderLayout.NORTH, tableTransactionHeaderScroll);
 			contentPnl.add(BorderLayout.CENTER, transactionPnl);
-			add(contentPnl);
 		}
 		else {
-			
+			String totalPrice = CartHandler.getInstance().calculateTotalPrice() + "";
+			totalPriceLbl = new JLabel("Total Price: " + totalPrice);
+			contentPnl.add(BorderLayout.NORTH, totalPriceLbl);
+			contentPnl.add(BorderLayout.CENTER, formPnl);
+			contentPnl.add(BorderLayout.SOUTH, buttonPnl);
 		}
+		add(contentPnl);
 	}
 
 	private void loadTransactionHeaderData() {
@@ -215,7 +229,9 @@ public class TransactionManagementFormView extends JFrame implements ActionListe
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+		if(e.getSource() == checkOutBtn) {
+			
+		}
 	}
 
 
