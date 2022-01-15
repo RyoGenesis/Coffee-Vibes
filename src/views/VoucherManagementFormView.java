@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -50,6 +52,18 @@ public class VoucherManagementFormView extends JFrame implements ActionListener{
 		table = new JTable(dtm);
 		tableScroll = new JScrollPane(table);
 		tableScroll.setPreferredSize(new Dimension(300, 300));
+		
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row = table.getSelectedRow();
+				int id = (int)table.getValueAt(row, 0);
+				int discount = (int)table.getValueAt(row, 1);
+				
+				idTxt.setText(id + "");
+				discountTxt.setText(discount + "");
+			}
+		});
 	}
 
 	private void makeForm() {
