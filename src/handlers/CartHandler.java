@@ -13,6 +13,7 @@ public class CartHandler {
 	private List<CartItem> listItem;
 	public CartItem cartItem;
 	private String message;
+	Product product = null;
 
 	public CartHandler() {
 		cartItem = new CartItem();
@@ -40,7 +41,6 @@ public class CartHandler {
 		return listItem;
 	}
 	
-	Product product = null;
 	public CartItem addToCart(int productID, String quantity) {
 		message = "";
 		product = ProductHandler.getInstance().getProduct(productID);
@@ -116,8 +116,36 @@ public class CartHandler {
 		return null;
 	}
 	
-	public boolean removeProductFromCart(int productID) {
-		return true;
+	public boolean removeProductFromCart(String productID) {
+		message = "";
+		int intProductId = 0;
+		if(productID.equals("")) {
+			message += "Product ID cannot be empty! ";
+		}
+		else {
+			try {
+				intProductId = Integer.parseInt(productID);
+			} catch (NumberFormatException e) {
+				message += "Product ID must be numeric! ";
+			}
+		}
+		
+		if(message.equals("")) {
+			boolean isFound = false;
+			for (int i = 0; i < listItem.size(); i++) {
+				if(listItem.get(i).getProduct().getProductID() == intProductId) {
+					isFound = true;
+					listItem.remove(i);
+					message = "Successfully Removed from Cart!";
+					return isFound;
+				}
+			}
+			if(!isFound) {
+				message += "Product ID not found in cart! ";
+				return false;
+			}
+		}
+		return false;
 	}
 	
 	public void clearCart() {
