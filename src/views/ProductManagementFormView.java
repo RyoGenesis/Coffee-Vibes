@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -17,6 +19,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import handlers.CartHandler;
 import handlers.ProductHandler;
 import models.Product;
 
@@ -24,11 +27,12 @@ public class ProductManagementFormView extends JFrame implements ActionListener{
 
 	private JLabel idLbl, nameLbl, descLbl, priceLbl, stockLbl;
 	private JTextField idTxt, nameTxt, descTxt, priceTxt, stockTxt;
-	private JButton insertBtn, updateBtn, deleteBtn;
+	private JButton insertBtn, updateBtn, deleteBtn, addToCartBtn;
 	private JTable table;
 	private DefaultTableModel dtm;
 	private JPanel contentPnl, formPnl, buttonPnl;
 	private JScrollPane tableScroll;
+	private String user;
 	Object[] columns = {"ID", "Name", "Description", "Price", "Stock"};
 	
 	private void init() {
@@ -48,6 +52,24 @@ public class ProductManagementFormView extends JFrame implements ActionListener{
 		table = new JTable(dtm);
 		tableScroll = new JScrollPane(table);
 		tableScroll.setPreferredSize(new Dimension(200, 200));
+		
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row = table.getSelectedRow();
+				int id = (int)table.getValueAt(row, 0);
+				String name = (String)table.getValueAt(row, 1);
+				String desc = (String)table.getValueAt(row, 1);
+				int price = (int)table.getValueAt(row, 3);
+				int stock = (int)table.getValueAt(row, 4);
+				
+				idTxt.setText(id + "");
+				nameTxt.setText(name);
+				descTxt.setText(desc);
+				priceTxt.setText(price + "");
+				stockTxt.setText(stock + "");
+			}
+		});
 	}
 
 	private void makeForm() {
@@ -80,15 +102,18 @@ public class ProductManagementFormView extends JFrame implements ActionListener{
 		insertBtn = new JButton("Insert");
 		updateBtn = new JButton("Update");
 		deleteBtn = new JButton("Delete");
+		addToCartBtn = new JButton("Add To Cart");
 		
 		insertBtn.addActionListener(this);
 		updateBtn.addActionListener(this);
 		deleteBtn.addActionListener(this);
+		addToCartBtn.addActionListener(this);
 		
-		buttonPnl = new JPanel(new GridLayout(1, 3));
+		buttonPnl = new JPanel(new GridLayout(1, 4));
 		buttonPnl.add(insertBtn);
 		buttonPnl.add(updateBtn);
 		buttonPnl.add(deleteBtn);
+		buttonPnl.add(addToCartBtn);
 	}
 
 	private void loadData() {
@@ -105,7 +130,8 @@ public class ProductManagementFormView extends JFrame implements ActionListener{
 		table.setModel(dtm);
 	}
 
-	public ProductManagementFormView() {
+	public ProductManagementFormView(String user) {
+		this.user = user;
 		init();
 		setSize(500,500);
 		setTitle("Coffee Vibes - Product Management");
@@ -120,13 +146,37 @@ public class ProductManagementFormView extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == insertBtn) {
-			insertProduct();
+			if(user.equalsIgnoreCase("productAdmin")) {
+				insertProduct();
+			}
+			else {
+				JOptionPane.showMessageDialog(this, "You must be Product Admin to use this function!");
+			}
 		}
 		else if(e.getSource() == updateBtn) {
-			updateProduct();
+			if(user.equalsIgnoreCase("productAdmin")) {
+				updateProduct();
+			}
+			else {
+				JOptionPane.showMessageDialog(this, "You must be Product Admin to use this function!");
+			}
 		}
 		else if(e.getSource() == deleteBtn) {
-			deleteProduct();
+			if(user.equalsIgnoreCase("productAdmin")) {
+				deleteProduct();
+			}
+			else {
+				JOptionPane.showMessageDialog(this, "You must be Product Admin to use this function!");
+			}
+		}
+		else if(e.getSource() == addToCartBtn) {
+			if(user.equalsIgnoreCase("barista")) {
+				dispose();
+				CartHandler.getInstance().viewAddProductToCartForm();
+			}
+			else {
+				JOptionPane.showMessageDialog(this, "You must be Barista to use this function!");
+			}
 		}
 	}
 
@@ -172,5 +222,4 @@ public class ProductManagementFormView extends JFrame implements ActionListener{
 			
 		}
 	}
-
 }
