@@ -3,6 +3,7 @@ package handlers;
 import java.util.List;
 
 import models.Transaction;
+import models.TransactionItem;
 import views.TransactionManagementFormView;
 
 public class TransactionHandler {
@@ -31,11 +32,11 @@ public class TransactionHandler {
 		return errorMessage;
 	}
 	
-	//**UNFINISHED**
-	public Transaction getTransactionDetail(int transactionID) {
-		return null;
+	public List<TransactionItem> getTransactionDetail(int transactionID) {
+		return transaction.getTransactionDetail(transactionID);
 	}
 	
+	//**UNFINISHED**
 	public Transaction insertTransaction(int voucherID, int employeeID, int totalPayment) {
 		return null;
 	}
