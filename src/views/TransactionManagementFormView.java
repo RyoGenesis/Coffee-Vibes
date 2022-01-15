@@ -3,6 +3,8 @@ package views;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -20,15 +22,15 @@ import handlers.TransactionHandler;
 import models.Transaction;
 import models.TransactionItem;
 
-public class TransactionManagementFormView extends JFrame {
+public class TransactionManagementFormView extends JFrame implements ActionListener{
 	
 
 	private JTable tableTransaction, tableTransactionItem;
-	private JLabel transactionTitleLbl, transactionIdLbl, purchaseDateLbl, voucherIdLbl, employeeIdLbl, priceLbl;
+	private JLabel transactionTitleLbl, transactionIdLbl, purchaseDateLbl, voucherIdLbl, employeeIdLbl, priceLbl, totalPriceLbl;
 	private JLabel transactionIdTxt, purchaseDateTxt, priceTxt;
 	private JButton checkOutBtn;
 	private DefaultTableModel dtmTransaction, dtmTransactionItem;
-	private JPanel contentPnl,buttonPnl, detailTransactionPnl , transactionPnl, transactionTitlePnl, transactionContentPnl;
+	private JPanel contentPnl, formPnl, buttonPnl, detailTransactionPnl , transactionPnl, transactionTitlePnl, transactionContentPnl;
 	private JPanel transactionIdLblPnl, transactionIdTxtPnl, purchaseDateLblPnl, purchaseDateTxtPnl, priceLblPnl, priceTxtPnl;
 	private JScrollPane tableTransactionHeaderScroll, tableTransactionItemScroll;
 	private Object[] columnTransactionHeaders = {"ID", "Purchase Date","Voucher ID", "Employee ID", "Total Price"};
@@ -40,10 +42,15 @@ public class TransactionManagementFormView extends JFrame {
 		this.user = user;
 		initComp();
 		addComp();
-		setSize(500,500);
 		setTitle("Coffee Vibes - Transaction Management");
-		loadTransactionHeaderData();
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		if(user.equalsIgnoreCase("manager")) {
+			setSize(500,500);
+			loadTransactionHeaderData();
+		}
+		else {
+			setSize(250,250);
+		}
+//		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);		
@@ -56,10 +63,25 @@ public class TransactionManagementFormView extends JFrame {
 			makeTransactionDetail();
 		}
 		else {
+			makeForm();
 			makeButton();
 		}
 	}
 	
+	private void makeForm() {
+		voucherIdLbl 
+		employeeIdLbl
+		
+		formPnl = new JPanel(new GridLayout(2,2));
+	}
+
+	private void makeButton() {
+		checkOutBtn = new JButton("Checkout");
+		
+//		buttonPnl = new JPanel(new GridLayout(1, 2));
+//		buttonPnl.add(checkOutBtn);
+	}
+
 	private void makeTransactionHeaderTable() {
 		dtmTransaction = new DefaultTableModel(columnTransactionHeaders, 0);
 		tableTransaction = new JTable(dtmTransaction);
@@ -131,13 +153,6 @@ public class TransactionManagementFormView extends JFrame {
 		detailTransactionPnl.add(BorderLayout.SOUTH, tableTransactionItemScroll);
 		transactionPnl.add(detailTransactionPnl);
 	}
-
-	private void makeButton() {
-		checkOutBtn = new JButton("Checkout");
-		
-//		buttonPnl = new JPanel(new GridLayout(1, 2));
-//		buttonPnl.add(checkOutBtn);
-	}
 	
 	private void addComp() {
 		if(user.equalsIgnoreCase("manager")) {
@@ -195,6 +210,12 @@ public class TransactionManagementFormView extends JFrame {
 			dtmTransactionItem.addRow(new Object[] {productID, quantity});
 		}
 		tableTransactionItem.setModel(dtmTransactionItem);
+	}
+
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
 	}
 
 
