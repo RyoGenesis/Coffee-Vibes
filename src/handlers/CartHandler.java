@@ -12,12 +12,12 @@ public class CartHandler {
 	public static CartHandler cartHandler = null;
 	private List<CartItem> listItem;
 	public CartItem cartItem;
-	private String errorMessage;
+	private String message;
 
 	public CartHandler() {
 		cartItem = new CartItem();
 		listItem = new Vector<CartItem>();
-		errorMessage = "";
+		message = "";
 	}
 	
 	public static CartHandler getInstance() {
@@ -26,16 +26,15 @@ public class CartHandler {
 		}
 		return cartHandler;
 	}
+
+	public String getMessage() {
+		return message;
+	}
 	
 	public List<CartItem> getCart(){
 		return listItem;
 	}
 	
-	public String getErrorMessage() {
-		return errorMessage;
-	}
-	
-	//**UNFINISHED**
 	public CartItem addToCart(int productID, int quantity) {
 		return null;
 	}
@@ -67,5 +66,4 @@ public class CartHandler {
 	public void viewCheckoutForm() {
 		new CheckoutFormView();
 	}
-	//**UNFINISHED**
 }
