@@ -97,6 +97,7 @@ public class Transaction {
 		return null;
 	}
 	
+	
 	public List<Transaction> getAllTransactions() {
 		Connect con =  Connect.getConnection();
 		List<Transaction> transactions = new Vector<>();

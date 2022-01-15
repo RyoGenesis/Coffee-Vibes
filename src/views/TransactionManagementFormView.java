@@ -18,6 +18,7 @@ import handlers.TransactionHandler;
 import models.Transaction;
 
 public class TransactionManagementFormView extends JFrame {
+	
 
 	private JTable table;
 	private JLabel transactionTitleLbl;
