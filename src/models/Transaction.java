@@ -1,5 +1,6 @@
 package models;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,6 +21,13 @@ public class Transaction {
 	
 	public Transaction(int transactionID, LocalDate purchaseDate, int voucherID, int employeeID, int totalPrice) {
 		this.transactionID = transactionID;
+		this.purchaseDate = purchaseDate;
+		this.voucherID = voucherID;
+		this.employeeID = employeeID;
+		this.totalPrice = totalPrice;
+	}
+	
+	public Transaction(LocalDate purchaseDate, int voucherID, int employeeID, int totalPrice) {
 		this.purchaseDate = purchaseDate;
 		this.voucherID = voucherID;
 		this.employeeID = employeeID;
@@ -93,9 +101,23 @@ public class Transaction {
 		return null;
 	}
 	
-	//**UNFINISHED**
 	public Transaction insertTransaction() {
-		return null;
+		Connect con =  Connect.getConnection();
+		try {
+			
+	        Date date = Date.valueOf(purchaseDate);
+			
+			PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO transactionheader VALUES(default,?,?,?,?)");
+			preparedStatement.setDate(1, date);
+			preparedStatement.setInt(2, voucherID);
+			preparedStatement.setInt(3, employeeID);
+			preparedStatement.setInt(4, totalPrice);
+			preparedStatement.execute();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		Transaction transaction= new Transaction(purchaseDate, voucherID, employeeID, totalPrice);
+		return transaction;
 	}
 	
 	
@@ -140,6 +162,4 @@ public class Transaction {
 		}
 		return transactions;
 	}
-	//**UNFINISHED**
-
 }
