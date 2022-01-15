@@ -152,6 +152,15 @@ public class CartHandler {
 		listItem.clear();
 	}
 	
+	public int calculateTotalPrice() {
+		int total = 0;
+		for (int i = 0; i < listItem.size(); i++) {
+			total += listItem.get(i).getProduct().getPrice();
+		}
+		
+		return total;
+	}
+	
 	public void viewAddProductToCartForm() {
 		new AddToCartFormView(productID);
 	}
