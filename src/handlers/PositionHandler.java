@@ -12,7 +12,7 @@ public class PositionHandler {
 
 	public PositionHandler() {
 		position = new Position();
-		errorMessage = "";
+		errorMessage = "Position is not valid!";
 	}
 	
 	public static PositionHandler getInstance() {
@@ -29,11 +29,9 @@ public class PositionHandler {
 	public String getErrorMessage() {
 		return errorMessage;
 	}
-	
-	//**UNFINISHED**
+
 	public Position getPosition(int positionID) {
-		return null;
+		return position.getPosition(positionID);
 	}
-	//**UNFINISHED**
 
 }
