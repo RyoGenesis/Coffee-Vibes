@@ -45,7 +45,7 @@ public class AddToCartFormView extends JFrame implements ActionListener{
 		init();
 		setSize(500,150);
 		setTitle("Coffee Vibes - Add To Cart");
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+//		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);	
