@@ -60,7 +60,7 @@ public class ProductManagementFormView extends JFrame implements ActionListener{
 				int row = table.getSelectedRow();
 				int id = (int)table.getValueAt(row, 0);
 				String name = (String)table.getValueAt(row, 1);
-				String desc = (String)table.getValueAt(row, 1);
+				String desc = (String)table.getValueAt(row, 2);
 				int price = (int)table.getValueAt(row, 3);
 				int stock = (int)table.getValueAt(row, 4);
 				
