@@ -26,16 +26,18 @@ public class TransactionManagementFormView extends JFrame {
 	private JTable tableTransaction, tableTransactionItem;
 	private JLabel transactionTitleLbl, transactionIdLbl, purchaseDateLbl, voucherIdLbl, employeeIdLbl, priceLbl;
 	private JLabel transactionIdTxt, purchaseDateTxt, priceTxt;
-	private JButton seeEmployeeBtn;
+	private JButton checkOutBtn;
 	private DefaultTableModel dtmTransaction, dtmTransactionItem;
 	private JPanel contentPnl,buttonPnl, detailTransactionPnl , transactionPnl, transactionTitlePnl, transactionContentPnl;
 	private JPanel transactionIdLblPnl, transactionIdTxtPnl, purchaseDateLblPnl, purchaseDateTxtPnl, priceLblPnl, priceTxtPnl;
 	private JScrollPane tableTransactionHeaderScroll, tableTransactionItemScroll;
 	private Object[] columnTransactionHeaders = {"ID", "Purchase Date","Voucher ID", "Employee ID", "Total Price"};
 	private Object[] columnTransactionItems = {"Product ID", "Quantity"};
+	private String user;
 	
 	
-	public TransactionManagementFormView() {
+	public TransactionManagementFormView(String user) {
+		this.user = user;
 		initComp();
 		addComp();
 		setSize(500,500);
@@ -49,9 +51,13 @@ public class TransactionManagementFormView extends JFrame {
 
 	
 	private void initComp() {
-		makeTransactionHeaderTable();
-		makeTransactionDetail();
-		makeButton();
+		if(user.equalsIgnoreCase("manager")) {
+			makeTransactionHeaderTable();
+			makeTransactionDetail();
+		}
+		else {
+			makeButton();
+		}
 	}
 	
 	private void makeTransactionHeaderTable() {
@@ -127,40 +133,43 @@ public class TransactionManagementFormView extends JFrame {
 	}
 
 	private void makeButton() {
-		seeEmployeeBtn = new JButton("See Employee");
+		checkOutBtn = new JButton("Checkout");
 		
-		buttonPnl = new JPanel(new GridLayout(1, 2));
-		buttonPnl.add(seeEmployeeBtn);
+//		buttonPnl = new JPanel(new GridLayout(1, 2));
+//		buttonPnl.add(checkOutBtn);
 	}
 	
 	private void addComp() {
-		
-		tableTransaction.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-
-				//reload table transaction item
-				dtmTransactionItem = new DefaultTableModel(columnTransactionItems, 0);
-				
-				tableTransactionItem.clearSelection();
-				int row = tableTransaction.getSelectedRow();
-				int transactionId = (int) tableTransaction.getValueAt(row, 0);
-				String purchaseDate = (String) tableTransaction.getValueAt(row, 1).toString();
-				int totalPrice = (int) tableTransaction.getValueAt(row, 4);
-				transactionIdTxt.setText(transactionId + "");
-				purchaseDateTxt.setText(purchaseDate);
-				priceTxt.setText(totalPrice + "");
-				
-				loadTransactionItemData(transactionId);
-				tableTransactionItemScroll.setVisible(true);
-			}
-		});
-		
-		contentPnl = new JPanel(new BorderLayout());
-		contentPnl.add(BorderLayout.NORTH, tableTransactionHeaderScroll);
-		contentPnl.add(BorderLayout.CENTER, transactionPnl);
-		contentPnl.add(BorderLayout.SOUTH, buttonPnl);
-		add(contentPnl);
+		if(user.equalsIgnoreCase("manager")) {
+			tableTransaction.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					
+					//reload table transaction item
+					dtmTransactionItem = new DefaultTableModel(columnTransactionItems, 0);
+					
+					tableTransactionItem.clearSelection();
+					int row = tableTransaction.getSelectedRow();
+					int transactionId = (int) tableTransaction.getValueAt(row, 0);
+					String purchaseDate = (String) tableTransaction.getValueAt(row, 1).toString();
+					int totalPrice = (int) tableTransaction.getValueAt(row, 4);
+					transactionIdTxt.setText(transactionId + "");
+					purchaseDateTxt.setText(purchaseDate);
+					priceTxt.setText(totalPrice + "");
+					
+					loadTransactionItemData(transactionId);
+					tableTransactionItemScroll.setVisible(true);
+				}
+			});
+			
+			contentPnl = new JPanel(new BorderLayout());
+			contentPnl.add(BorderLayout.NORTH, tableTransactionHeaderScroll);
+			contentPnl.add(BorderLayout.CENTER, transactionPnl);
+			add(contentPnl);
+		}
+		else {
+			
+		}
 	}
 
 	private void loadTransactionHeaderData() {
