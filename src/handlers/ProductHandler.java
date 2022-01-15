@@ -178,6 +178,6 @@ public class ProductHandler {
 	}
 	
 	public void viewProductManagementForm() {
-		new ProductManagementFormView();
+		new ProductManagementFormView("productAdmin");
 	}
 }
