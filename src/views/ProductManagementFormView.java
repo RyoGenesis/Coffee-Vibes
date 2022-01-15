@@ -38,13 +38,20 @@ public class ProductManagementFormView extends JFrame implements ActionListener{
 	
 	private void init() {
 		makeTable();
-		makeForm();
+		if(user.equalsIgnoreCase("productAdmin")) {
+			makeForm();
+		}
 		makeButton();
 		
 		contentPnl = new JPanel(new BorderLayout());
 		contentPnl.add(BorderLayout.NORTH, tableScroll);
-		contentPnl.add(BorderLayout.CENTER, formPnl);
-		contentPnl.add(BorderLayout.SOUTH, buttonPnl);
+		if(user.equalsIgnoreCase("productAdmin")) {
+			contentPnl.add(BorderLayout.CENTER, formPnl);
+			contentPnl.add(BorderLayout.SOUTH, buttonPnl);
+		}
+		else {
+			contentPnl.add(BorderLayout.CENTER, buttonPnl);
+		}
 		add(contentPnl);
 	}
 	
@@ -52,7 +59,12 @@ public class ProductManagementFormView extends JFrame implements ActionListener{
 		dtm = new DefaultTableModel(columns, 0);
 		table = new JTable(dtm);
 		tableScroll = new JScrollPane(table);
-		tableScroll.setPreferredSize(new Dimension(200, 200));
+		if(user.equalsIgnoreCase("productAdmin")) {
+			tableScroll.setPreferredSize(new Dimension(200, 200));
+		}
+		else {
+			tableScroll.setPreferredSize(new Dimension(400, 400));
+		}
 		
 		table.addMouseListener(new MouseAdapter() {
 			@Override
@@ -64,14 +76,15 @@ public class ProductManagementFormView extends JFrame implements ActionListener{
 				int price = (int)table.getValueAt(row, 3);
 				int stock = (int)table.getValueAt(row, 4);
 				
-				idTxt.setText(id + "");
-				nameTxt.setText(name);
-				descTxt.setText(desc);
-				priceTxt.setText(price + "");
-				stockTxt.setText(stock + "");
-				
 				if(user.equalsIgnoreCase("barista")) {
 					productID = id;
+				}
+				else {
+					idTxt.setText(id + "");
+					nameTxt.setText(name);
+					descTxt.setText(desc);
+					priceTxt.setText(price + "");
+					stockTxt.setText(stock + "");
 				}
 			}
 		});
@@ -104,21 +117,27 @@ public class ProductManagementFormView extends JFrame implements ActionListener{
 	}
 
 	private void makeButton() {
-		insertBtn = new JButton("Insert");
-		updateBtn = new JButton("Update");
-		deleteBtn = new JButton("Delete");
-		addToCartBtn = new JButton("Add To Cart");
+		if(user.equalsIgnoreCase("productAdmin")) {
+			insertBtn = new JButton("Insert");
+			updateBtn = new JButton("Update");
+			deleteBtn = new JButton("Delete");
+			
+			insertBtn.addActionListener(this);
+			updateBtn.addActionListener(this);
+			deleteBtn.addActionListener(this);
+
+			buttonPnl = new JPanel(new GridLayout(1, 3));
+			buttonPnl.add(insertBtn);
+			buttonPnl.add(updateBtn);
+			buttonPnl.add(deleteBtn);
+		}
+		else {
+			addToCartBtn = new JButton("Add To Cart");
+			addToCartBtn.addActionListener(this);
+			buttonPnl = new JPanel(new GridLayout(1, 1));
+			buttonPnl.add(addToCartBtn);
+		}
 		
-		insertBtn.addActionListener(this);
-		updateBtn.addActionListener(this);
-		deleteBtn.addActionListener(this);
-		addToCartBtn.addActionListener(this);
-		
-		buttonPnl = new JPanel(new GridLayout(1, 4));
-		buttonPnl.add(insertBtn);
-		buttonPnl.add(updateBtn);
-		buttonPnl.add(deleteBtn);
-		buttonPnl.add(addToCartBtn);
 	}
 
 	private void loadData() {
@@ -152,41 +171,20 @@ public class ProductManagementFormView extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == insertBtn) {
-			if(user.equalsIgnoreCase("productAdmin")) {
-				insertProduct();
-			}
-			else {
-				JOptionPane.showMessageDialog(this, "You must be Product Admin to use this function!");
-			}
+			insertProduct();
 		}
 		else if(e.getSource() == updateBtn) {
-			if(user.equalsIgnoreCase("productAdmin")) {
-				updateProduct();
-			}
-			else {
-				JOptionPane.showMessageDialog(this, "You must be Product Admin to use this function!");
-			}
+			updateProduct();
 		}
 		else if(e.getSource() == deleteBtn) {
-			if(user.equalsIgnoreCase("productAdmin")) {
-				deleteProduct();
-			}
-			else {
-				JOptionPane.showMessageDialog(this, "You must be Product Admin to use this function!");
-			}
+			deleteProduct();
 		}
 		else if(e.getSource() == addToCartBtn) {
-			if(user.equalsIgnoreCase("barista")) {
-//				dispose();
-				if(productID == 0) {
-					JOptionPane.showMessageDialog(this, "Please choose a product from table for add to cart!");
-				}
-				else {
-					new AddToCartFormView(productID);
-				}
+			if(productID == 0) {
+				JOptionPane.showMessageDialog(this, "Please choose a product from table for add to cart!");
 			}
 			else {
-				JOptionPane.showMessageDialog(this, "You must be Barista to use this function!");
+				new AddToCartFormView(productID);
 			}
 		}
 	}
