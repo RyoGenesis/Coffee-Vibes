@@ -155,7 +155,7 @@ public class CartHandler {
 	public int calculateTotalPrice() {
 		int total = 0;
 		for (int i = 0; i < listItem.size(); i++) {
-			total += listItem.get(i).getProduct().getPrice();
+			total += listItem.get(i).getProduct().getPrice() * listItem.get(i).getQuantity();
 		}
 		
 		return total;
