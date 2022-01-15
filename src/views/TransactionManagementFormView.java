@@ -12,6 +12,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -19,7 +20,10 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import handlers.CartHandler;
+import handlers.ProductHandler;
 import handlers.TransactionHandler;
+import handlers.VoucherHandler;
+import models.Product;
 import models.Transaction;
 import models.TransactionItem;
 
@@ -38,6 +42,7 @@ public class TransactionManagementFormView extends JFrame implements ActionListe
 	private Object[] columnTransactionHeaders = {"ID", "Purchase Date","Voucher ID", "Employee ID", "Total Price"};
 	private Object[] columnTransactionItems = {"Product ID", "Quantity"};
 	private String user;
+	private int totalPayment;
 	
 	
 	public TransactionManagementFormView(String user) {
@@ -192,8 +197,8 @@ public class TransactionManagementFormView extends JFrame implements ActionListe
 			contentPnl.add(BorderLayout.CENTER, transactionPnl);
 		}
 		else {
-			String totalPrice = CartHandler.getInstance().calculateTotalPrice() + "";
-			totalPriceLbl = new JLabel("Total Price: " + totalPrice);
+			totalPayment = CartHandler.getInstance().calculateTotalPrice();
+			totalPriceLbl = new JLabel("Total Price: " + totalPayment);
 			contentPnl.add(BorderLayout.NORTH, totalPriceLbl);
 			contentPnl.add(BorderLayout.CENTER, formPnl);
 			contentPnl.add(BorderLayout.SOUTH, buttonPnl);
@@ -230,6 +235,21 @@ public class TransactionManagementFormView extends JFrame implements ActionListe
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == checkOutBtn) {
+			checkOut();
+		}
+	}
+
+	private void checkOut() {
+		String voucherId = voucherIdTxt.getText();
+		String employeeId = employeeIdTxt.getText();
+
+		int dialog = JOptionPane.showConfirmDialog(this, "Confirm checkout?");
+		if(dialog == JOptionPane.YES_OPTION) {
+			Transaction t = TransactionHandler.getInstance().insertTransaction(voucherId, employeeId, totalPayment + "");
+			JOptionPane.showMessageDialog(this, VoucherHandler.getInstance().getMessage());
+			if(t != null) {
+				dispose();
+			}
 			
 		}
 	}
