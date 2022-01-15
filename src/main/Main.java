@@ -2,6 +2,7 @@ package main;
 
 import handlers.AuthHandler;
 import handlers.ProductHandler;
+import handlers.TransactionHandler;
 import handlers.VoucherHandler;
 
 public class Main {
@@ -11,8 +12,10 @@ public class Main {
 //		AuthHandler.getInstance().viewLoginForm();
 //		ProductHandler.getInstance().setUser("productAdmin");
 //		ProductHandler.getInstance().viewProductManagementForm();
-		ProductHandler.getInstance().setUser("barista");
-		ProductHandler.getInstance().viewProductManagementForm();
+//		ProductHandler.getInstance().setUser("barista");
+//		ProductHandler.getInstance().viewProductManagementForm();
+		TransactionHandler.getInstance().setUser("manager");;
+		TransactionHandler.getInstance().viewTransactionManagementForm();
 //		VoucherHandler.getInstance().viewVoucherManagementForm();
 	}
 
