@@ -1,6 +1,7 @@
 package main;
 
 import handlers.AuthHandler;
+import handlers.EmployeeHandler;
 import handlers.ProductHandler;
 import handlers.VoucherHandler;
 
@@ -14,6 +15,7 @@ public class Main {
 		ProductHandler.getInstance().setUser("barista");
 		ProductHandler.getInstance().viewProductManagementForm();
 //		VoucherHandler.getInstance().viewVoucherManagementForm();
+//		EmployeeHandler.getInstance().viewEmployeeManagementForm("Human Resource Management");
 	}
 
 	public static void main(String[] args) {
