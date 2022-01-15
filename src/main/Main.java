@@ -13,10 +13,10 @@ public class Main {
 //		AuthHandler.getInstance().viewLoginForm();
 //		ProductHandler.getInstance().setUser("productAdmin");
 //		ProductHandler.getInstance().viewProductManagementForm();
-//		ProductHandler.getInstance().setUser("barista");
-//		ProductHandler.getInstance().viewProductManagementForm();
-		TransactionHandler.getInstance().setUser("manager");;
-		TransactionHandler.getInstance().viewTransactionManagementForm();
+		ProductHandler.getInstance().setUser("barista");
+		ProductHandler.getInstance().viewProductManagementForm();
+//		TransactionHandler.getInstance().setUser("barista");;
+//		TransactionHandler.getInstance().viewTransactionManagementForm();
 //		VoucherHandler.getInstance().viewVoucherManagementForm();
 //		EmployeeHandler.getInstance().viewEmployeeManagementForm("Human Resource Management");
 	}
