@@ -88,19 +88,6 @@ public class Transaction {
 		listTransactionItem.add(transactionItem);
 	}
 	
-	private Transaction map(ResultSet rs) {
-		try {
-			// not finished, placeholder only
-			int id = rs.getInt("id");
-			
-			// not finished, placeholder only
-			return new Transaction();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
 	public Transaction insertTransaction() {
 		Connect con =  Connect.getConnection();
 		try {
