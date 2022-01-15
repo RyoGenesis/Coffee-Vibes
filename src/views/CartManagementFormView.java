@@ -115,6 +115,7 @@ public class CartManagementFormView extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == checkOutBtn) {
+			TransactionHandler.getInstance().setUser("barista");
 			TransactionHandler.getInstance().viewTransactionManagementForm();
 		}
 		else if(e.getSource() == removeBtn) {
