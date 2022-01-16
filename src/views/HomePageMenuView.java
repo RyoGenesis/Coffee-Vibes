@@ -32,10 +32,9 @@ public class HomePageMenuView extends JFrame implements ActionListener{
 			GridLayout gridLayout = new GridLayout(5, 1);
 			gridLayout.setVgap(50);
 			buttonPnl = new JPanel(gridLayout);
-			buttonPnl.add(baristaBtn);
-			buttonPnl.add(productAdminBtn);
-			buttonPnl.add(managerBtn);
-			buttonPnl.add(hrdBtn);
+			buttonPnl.add(addToCartBtn);
+			buttonPnl.add(checkoutBtn);
+			buttonPnl.add(cartManagementBtn);
 			
 			BorderLayout borderLayout = new BorderLayout();
 			contentPnl = new JPanel(borderLayout);
