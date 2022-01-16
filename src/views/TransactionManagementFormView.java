@@ -38,12 +38,12 @@ public class TransactionManagementFormView extends JFrame implements ActionListe
 	private JMenuBar menuBar;
 	private JMenu homeMenu;
 	private JTable tableTransaction, tableTransactionItem;
-	private JLabel transactionTitleLbl, transactionIdLbl, purchaseDateLbl, voucherIdLbl, employeeIdLbl, priceLbl, totalPriceLbl;
+	private JLabel transactionTitleLbl, transactionIdLbl, purchaseDateLbl, voucherIdLbl, priceLbl, totalPriceLbl;
 	private JLabel transactionIdTxt, purchaseDateTxt, priceTxt;
-	private JTextField voucherIdTxt, employeeIdTxt;
+	private JTextField voucherIdTxt;
 	private JButton checkOutBtn, confirmBtn;
 	private DefaultTableModel dtmTransaction, dtmTransactionItem;
-	private JPanel contentPnl, formVcrPnl, formEmpPnl, formCntnPnl, buttonPnl, detailTransactionPnl , transactionPnl, transactionTitlePnl, transactionContentPnl;
+	private JPanel contentPnl, formPnl, buttonPnl, detailTransactionPnl , transactionPnl, transactionTitlePnl, transactionContentPnl;
 	private JPanel transactionIdLblPnl, transactionIdTxtPnl, purchaseDateLblPnl, purchaseDateTxtPnl, priceLblPnl, priceTxtPnl;
 	private JScrollPane tableTransactionHeaderScroll, tableTransactionItemScroll;
 	private Object[] columnTransactionHeaders = {"ID", "Purchase Date","Voucher ID", "Employee ID", "Total Price"};
@@ -107,31 +107,21 @@ public class TransactionManagementFormView extends JFrame implements ActionListe
 	
 	private void makeForm() {
 		voucherIdLbl = new JLabel("Voucher ID");
-		employeeIdLbl = new JLabel("Employee ID");
-		
 		voucherIdTxt = new JTextField();
-		employeeIdTxt = new JTextField();
 		
-		formVcrPnl = new JPanel(new GridLayout(1,2));
-		formVcrPnl.add(voucherIdLbl);
-		formVcrPnl.add(voucherIdTxt);
-		formEmpPnl = new JPanel(new GridLayout(1,2));
-		formEmpPnl.add(employeeIdLbl);
-		formEmpPnl.add(employeeIdTxt);
-		formCntnPnl = new JPanel(new GridLayout(3,1));
-		formCntnPnl.add(formVcrPnl);
-		confirmBtn = new JButton("Confirm Voucher");
-		confirmBtn.addActionListener(this);
-		formCntnPnl.add(confirmBtn);
-		formCntnPnl.add(formEmpPnl);
-		
+		formPnl = new JPanel(new GridLayout(1,2));
+		formPnl.add(voucherIdLbl);
+		formPnl.add(voucherIdTxt);
 	}
 
 	private void makeButton() {
+		confirmBtn = new JButton("Confirm Voucher");
+		confirmBtn.addActionListener(this);
 		checkOutBtn = new JButton("Checkout");
 		checkOutBtn.addActionListener(this);
 		
-		buttonPnl = new JPanel(new GridLayout(1,1));
+		buttonPnl = new JPanel(new GridLayout(1,2));
+		buttonPnl.add(confirmBtn);
 		buttonPnl.add(checkOutBtn);
 	}
 
@@ -240,7 +230,7 @@ public class TransactionManagementFormView extends JFrame implements ActionListe
 			totalPayment = CartHandler.getInstance().calculateTotalPrice();
 			totalPriceLbl = new JLabel("Total Price: " + totalPayment);
 			contentPnl.add(totalPriceLbl);
-			contentPnl.add(formCntnPnl);
+			contentPnl.add(formPnl);
 			contentPnl.add(buttonPnl);
 		}
 		add(contentPnl);
@@ -285,10 +275,10 @@ public class TransactionManagementFormView extends JFrame implements ActionListe
 	Voucher v = null;
 	private void checkOut() {
 		String voucherId = "";
+		int employeeId = AuthHandler.getInstance().getAuthUser().getEmployeeID();
 		if(v != null) {
 			voucherId = voucherIdTxt.getText();
 		}
-		String employeeId = employeeIdTxt.getText();
 
 		int dialog = JOptionPane.showConfirmDialog(this, "Confirm checkout?");
 		if(dialog == JOptionPane.YES_OPTION) {

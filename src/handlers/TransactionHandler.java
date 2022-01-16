@@ -44,30 +44,11 @@ public class TransactionHandler {
 		return transaction.getTransactionDetail(transactionID);
 	}
 	
-	public Transaction insertTransaction(String voucherID, String employeeID, int totalPayment) {
+	public Transaction insertTransaction(String voucherID, int employeeID, int totalPayment) {
 		message = "";
 		int intVoucherID = 0;
 		if(!voucherID.equals("")) {
 			intVoucherID = Integer.parseInt(voucherID);
-		}
-		
-		int intEmployeeID = 0;
-		if(employeeID.equals("")) {
-			message += "Employee ID cannot be empty! ";
-		} else {
-			boolean canParse = true;
-			try {
-				intEmployeeID = Integer.parseInt(employeeID);
-			} catch (NumberFormatException e) {
-				message += "Employee ID must be numeric! ";
-				canParse = false;
-			}
-			if(canParse) {
-				Employee e = new Employee();
-				if(e.getEmployeeById(intEmployeeID) == null) {
-					message += "Employee ID is not exist in database! ";
-				}
-			}
 		}
 		
 		if(message.equals("")) {
@@ -75,7 +56,7 @@ public class TransactionHandler {
 				VoucherHandler.getInstance().deleteVoucher(voucherID);
 			}
 
-			transaction = new Transaction(LocalDate.now(), intVoucherID, intEmployeeID, totalPayment);
+			transaction = new Transaction(LocalDate.now(), intVoucherID, employeeID, totalPayment);
 			transaction.insertTransaction();
 			Transaction t = getLastTransaction();
 			int insertedTransactionID = t.getTransactionID();
