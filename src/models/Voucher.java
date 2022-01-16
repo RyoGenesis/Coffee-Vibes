@@ -71,7 +71,7 @@ public class Voucher {
 		Connect con =  Connect.getConnection();
 		List<Voucher> vouchers = new Vector<>();
 		try {
-			ResultSet resultSet = con.executeQuery("SELECT * FROM voucher");
+			ResultSet resultSet = con.executeQuery("SELECT * FROM voucher WHERE isDelete = 0");
 			while(resultSet.next()) {
 				int id = resultSet.getInt(1);
 				int discount = resultSet.getInt(2);
@@ -90,7 +90,7 @@ public class Voucher {
 		Connect con = Connect.getConnection();
 		Voucher voucher = null;
 		try {
-			PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM voucher WHERE ID = ?");
+			PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM voucher WHERE ID = ? AND isDelete = 0");
 			preparedStatement.setInt(1, voucherID);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if(resultSet.next()) {
@@ -108,7 +108,7 @@ public class Voucher {
 	public boolean deleteVoucher(int voucherID) {
 		Connect con =  Connect.getConnection();
 		try {
-			PreparedStatement preparedStatement = con.prepareStatement("DELETE FROM voucher WHERE ID = ?");
+			PreparedStatement preparedStatement = con.prepareStatement("UPDATE voucher SET isDelete = 1 WHERE ID = ?");
 			preparedStatement.setInt(1, voucherID);
 			return preparedStatement.executeUpdate() == 1;
 		} catch (Exception e) {
