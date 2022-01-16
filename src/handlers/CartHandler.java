@@ -97,7 +97,7 @@ public class CartHandler {
 	}
 
 	public Product updateProductStock(int productID, int stock) {
-		return null;
+		return ProductHandler.getInstance().updateProductStock(productID, stock);
 	}
 
 	public CartItem updateCartProductQuantity(int productID, int quantity) {
