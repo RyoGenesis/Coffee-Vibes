@@ -14,7 +14,7 @@ public class Transaction {
 
 	private int transactionID;
 	private LocalDate purchaseDate;
-	private int voucherID;
+	private int voucherID = 0;
 	private int employeeID;
 	private int totalPrice;
 	private List<TransactionItem> listTransactionItem;
@@ -30,6 +30,13 @@ public class Transaction {
 	public Transaction(LocalDate purchaseDate, int voucherID, int employeeID, int totalPrice) {
 		this.purchaseDate = purchaseDate;
 		this.voucherID = voucherID;
+		this.employeeID = employeeID;
+		this.totalPrice = totalPrice;
+	}
+
+	public Transaction(LocalDate purchaseDate, int employeeID, int totalPrice) {
+		super();
+		this.purchaseDate = purchaseDate;
 		this.employeeID = employeeID;
 		this.totalPrice = totalPrice;
 	}
@@ -90,20 +97,38 @@ public class Transaction {
 	
 	public Transaction insertTransaction() {
 		Connect con =  Connect.getConnection();
-		try {
-			
-	        Date date = Date.valueOf(purchaseDate);
-			
-			PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO transactionheader VALUES(default,?,?,?,?)");
-			preparedStatement.setDate(1, date);
-			preparedStatement.setInt(2, voucherID);
-			preparedStatement.setInt(3, employeeID);
-			preparedStatement.setInt(4, totalPrice);
-			preparedStatement.execute();
-		} catch (Exception e) {
-			// TODO: handle exception
+		Transaction transaction = null;
+		if(voucherID != 0) {
+			try {
+				
+				Date date = Date.valueOf(purchaseDate);
+				
+				PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO transactionheader VALUES(default,?,?,?,?)");
+				preparedStatement.setDate(1, date);
+				preparedStatement.setInt(2, voucherID);
+				preparedStatement.setInt(3, employeeID);
+				preparedStatement.setInt(4, totalPrice);
+				preparedStatement.execute();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			transaction= new Transaction(purchaseDate, voucherID, employeeID, totalPrice);
 		}
-		Transaction transaction= new Transaction(purchaseDate, voucherID, employeeID, totalPrice);
+		else {//checkout without voucher
+			try {
+				
+				Date date = Date.valueOf(purchaseDate);
+				
+				PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO transactionheader VALUES(default,?,NULL,?,?)");
+				preparedStatement.setDate(1, date);
+				preparedStatement.setInt(2, employeeID);
+				preparedStatement.setInt(3, totalPrice);
+				preparedStatement.execute();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			transaction= new Transaction(purchaseDate, employeeID, totalPrice);
+		}
 		return transaction;
 	}
 	
