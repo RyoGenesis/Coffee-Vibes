@@ -2,11 +2,16 @@ package handlers;
 
 import java.util.List;
 
+import connect.Connect;
+import models.CartItem;
+import models.Employee;
 import models.Product;
 import models.Transaction;
 import models.TransactionItem;
 import models.Voucher;
 import views.TransactionManagementFormView;
+
+import java.sql.ResultSet;
 import java.time.LocalDate;
 
 public class TransactionHandler {
@@ -59,20 +64,50 @@ public class TransactionHandler {
 		if(employeeID.equals("")) {
 			message += "Employee ID cannot be empty! ";
 		} else {
+			boolean canParse = true;
 			try {
 				intEmployeeID = Integer.parseInt(employeeID);
 			} catch (NumberFormatException e) {
 				message += "Employee ID must be numeric! ";
-
+				canParse = false;
+			}
+			if(canParse) {
+				Employee e = new Employee();
+				if(e.getEmployeeById(intEmployeeID) == null) {
+					message += "Employee ID is not exist in database! ";
+				}
 			}
 		}
 		
 		if(message.equals("")) {
+			if(intVoucherID != null) {
+				VoucherHandler.getInstance().deleteVoucher(voucherID);
+			}
+
 			transaction = new Transaction(LocalDate.now(), intVoucherID, intEmployeeID, totalPayment);
-			message = "Successfully Inserted!";
+			transaction.insertTransaction();
+			Transaction t = getLastTransaction();
+			int insertedTransactionID = t.getTransactionID();
+			
+			List<CartItem> cartItems = CartHandler.getInstance().getCart();
+			for (CartItem cartItem : cartItems) {
+				int productID = cartItem.getProduct().getProductID();
+				int quantity = cartItem.getQuantity();
+				int stock = cartItem.getProduct().getStock();
+				ProductHandler.getInstance().updateProductStock(productID, stock);
+				TransactionItem item = new TransactionItem(insertedTransactionID, productID, quantity);
+				item.insertTransactionItem();
+			}
+			CartHandler.getInstance().clearCart();
+			
+			message = "Success Checkout!";
 			return transaction.insertTransaction();
 		}
 		return null;
+	}
+	
+	public Transaction getLastTransaction() {
+		return transaction.getLastTransaction();
 	}
 	
 	Voucher v = null;
@@ -100,14 +135,9 @@ public class TransactionHandler {
 	
 	public int recalculateTotalPrice(int totalPrice) {
 		int total = 0;
-		if(v.getStatus().equalsIgnoreCase("unused")) {
-			total = totalPrice - v.getDiscount();
-			if(total < 0) {
-				total = 0;
-			}
-		}
-		else {
-			total = totalPrice;
+		total = totalPrice - v.getDiscount();
+		if(total < 0) {
+			total = 0;
 		}
 		return total;
 	}
