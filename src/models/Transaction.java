@@ -14,7 +14,7 @@ public class Transaction {
 
 	private int transactionID;
 	private LocalDate purchaseDate;
-	private int voucherID = 0;
+	private int voucherID;
 	private int employeeID;
 	private int totalPrice;
 	private List<TransactionItem> listTransactionItem;
