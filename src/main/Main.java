@@ -16,7 +16,7 @@ public class Main {
 		//VIEW YG BS DIPAKE BARISTA
 //		ProductHandler.getInstance().setUser("barista");
 //		ProductHandler.getInstance().viewProductManagementForm();
-//		TransactionHandler.getInstance().setUser("barista");;
+//		TransactionHandler.getInstance().setUser("barista");
 //		TransactionHandler.getInstance().viewTransactionManagementForm();
 //		CartHandler.getInstance().viewCheckoutForm(); //ini cart management form
 		

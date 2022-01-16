@@ -6,7 +6,7 @@ public class HomePageMenuView extends JFrame {
 	
 	//**UNFINISHED**
 
-	public HomePageMenuView() {
+	public HomePageMenuView(String user) {
 		//initComp();
 		//addComp();
 		setSize(500,500);

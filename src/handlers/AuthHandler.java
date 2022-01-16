@@ -1,16 +1,25 @@
 package handlers;
 
+import views.HomePageMenuView;
 import views.LoginAuthenticationFormView;
 
 public class AuthHandler {
 	
 	public static AuthHandler authHandler = null;
-	private String errorMessage;
+	private String user;
 
 	public AuthHandler() {
-		errorMessage = "";
+		
 	}
 	
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+
 	public static AuthHandler getInstance() {
 		if (authHandler == null) {
 			authHandler = new AuthHandler();
@@ -18,17 +27,16 @@ public class AuthHandler {
 		return authHandler;
 	}
 	
-	public String getErrorMessage() {
-		return errorMessage;
-	}
-	
-	public void loginAuth() {
-		//unfinished
-	}
-	
-	public void logout() {
-		//unfinished, temporary
-		viewLoginForm();
+//	public void loginAuth() {
+//		//unfinished
+//	}
+//	
+//	public void logout() {
+//		//unfinished, temporary
+//		viewLoginForm();
+//	}
+	public void viewHome() {
+		new HomePageMenuView(user);
 	}
 	
 	public void viewLoginForm() {
