@@ -32,7 +32,7 @@ public class LoginAuthenticationFormView extends JFrame implements ActionListene
 		hrdBtn = new JButton("Human Resource Department");
 		hrdBtn.addActionListener(this);
 		
-		GridLayout gridLayout = new GridLayout(4, 1);
+		GridLayout gridLayout = new GridLayout(5, 1);
 		gridLayout.setVgap(50);
 		buttonPnl = new JPanel(gridLayout);
 		buttonPnl.add(baristaBtn);
