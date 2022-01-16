@@ -108,8 +108,9 @@ public class Voucher {
 	public boolean deleteVoucher(int voucherID) {
 		Connect con =  Connect.getConnection();
 		try {
-			PreparedStatement preparedStatement = con.prepareStatement("UPDATE voucher SET isDelete = 1 WHERE ID = ?");
-			preparedStatement.setInt(1, voucherID);
+			PreparedStatement preparedStatement = con.prepareStatement("UPDATE voucher SET Status = ?, isDelete = 1 WHERE ID = ?");
+			preparedStatement.setString(1, "used");
+			preparedStatement.setInt(2, voucherID);
 			return preparedStatement.executeUpdate() == 1;
 		} catch (Exception e) {
 			// TODO: handle exception
