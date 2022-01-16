@@ -50,7 +50,7 @@ public class LoginAuthenticationFormView extends JFrame implements ActionListene
 	public LoginAuthenticationFormView() {
 		init();
 		setSize(500,500);
-		setTitle("Coffee Vibes - Role");
+		setTitle("Coffee Vibes - Login");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setResizable(false);
