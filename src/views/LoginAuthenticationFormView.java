@@ -10,6 +10,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
 import handlers.AuthHandler;
 
@@ -17,10 +19,12 @@ public class LoginAuthenticationFormView extends JFrame implements ActionListene
 	
 	JPanel contentPnl, buttonPnl;
 	JButton baristaBtn, productAdminBtn, managerBtn, hrdBtn;
-	JLabel textLbl;
+	JTextField usernameTxt;
+	JPasswordField passwordTxt;
+	JLabel textLbl, usernameLbl, passwordLbl;
 	
 	private void init() {
-		textLbl = new JLabel("Login As");
+		textLbl = new JLabel("Login To Coffee Vibes");
 		textLbl.setHorizontalAlignment(JLabel.CENTER);
 		
 		baristaBtn = new JButton("Barista");
@@ -32,7 +36,7 @@ public class LoginAuthenticationFormView extends JFrame implements ActionListene
 		hrdBtn = new JButton("Human Resource Department");
 		hrdBtn.addActionListener(this);
 		
-		GridLayout gridLayout = new GridLayout(5, 1);
+		GridLayout gridLayout = new GridLayout(3, 1);
 		gridLayout.setVgap(50);
 		buttonPnl = new JPanel(gridLayout);
 		buttonPnl.add(baristaBtn);
@@ -60,16 +64,16 @@ public class LoginAuthenticationFormView extends JFrame implements ActionListene
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == baristaBtn) {
-			AuthHandler.getInstance().setUser("barista");
+//			AuthHandler.getInstance().setUser("barista");
 		}
 		else if(e.getSource() == productAdminBtn) {
-			AuthHandler.getInstance().setUser("productAdmin");
+//			AuthHandler.getInstance().setUser("productAdmin");
 		}
 		else if(e.getSource() == managerBtn) {
-			AuthHandler.getInstance().setUser("manager");
+//			AuthHandler.getInstance().setUser("manager");
 		}
 		else if(e.getSource() == hrdBtn) {
-			AuthHandler.getInstance().setUser("hrd");
+//			AuthHandler.getInstance().setUser("hrd");
 		}
 		AuthHandler.getInstance().viewHome();
 		dispose();

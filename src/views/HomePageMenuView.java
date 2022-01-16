@@ -17,6 +17,7 @@ import handlers.CartHandler;
 import handlers.ProductHandler;
 import handlers.TransactionHandler;
 import handlers.VoucherHandler;
+import models.Employee;
 
 public class HomePageMenuView extends JFrame implements ActionListener{
 	
@@ -25,12 +26,13 @@ public class HomePageMenuView extends JFrame implements ActionListener{
 	JButton addToCartBtn, checkoutBtn, cartManagementBtn;
 	JButton manageProductBtn, manageVoucherBtn;
 	JLabel textLbl;
-	private String user;
+	private Employee user;
 	
 	private void init() {
 		logoutBtn = new JButton("Logout");
 		logoutBtn.addActionListener(this);
-		if(user.equalsIgnoreCase("barista")) {
+		//if Barista
+		if(user.getPositionID() == 4) {
 			textLbl = new JLabel("Barista");
 			textLbl.setHorizontalAlignment(JLabel.CENTER);
 			
@@ -55,7 +57,8 @@ public class HomePageMenuView extends JFrame implements ActionListener{
 			contentPnl.add(BorderLayout.SOUTH, buttonPnl);
 			add(contentPnl);
 		}
-		else if(user.equalsIgnoreCase("productAdmin")) {
+		//if Product Admin
+		else if(user.getPositionID() == 1) {
 			textLbl = new JLabel("Product Admin");
 			textLbl.setHorizontalAlignment(JLabel.CENTER);
 			
@@ -77,15 +80,17 @@ public class HomePageMenuView extends JFrame implements ActionListener{
 			contentPnl.add(BorderLayout.SOUTH, buttonPnl);
 			add(contentPnl);
 		}
-		else if(user.equalsIgnoreCase("manager")) {
+		//if Manager
+		else if(user.getPositionID() == 2) {
 			//ISI
 		}
-		else if(user.equalsIgnoreCase("hrd")) {
+		//if Human Resource Manager
+		else if(user.getPositionID() == 3) {
 			//ISI
 		}
 	}
 	
-	public HomePageMenuView(String user) {
+	public HomePageMenuView(Employee user) {
 		this.user = user;
 		init();
 		setSize(500,500);
@@ -103,7 +108,6 @@ public class HomePageMenuView extends JFrame implements ActionListener{
 			dispose();
 		}
 		if(e.getSource() == addToCartBtn) {
-			ProductHandler.getInstance().setUser("barista");
 			ProductHandler.getInstance().viewProductManagementForm();
 		}
 		if(CartHandler.getInstance().getCart().isEmpty() && (e.getSource() == checkoutBtn || e.getSource() == cartManagementBtn)) {
@@ -111,7 +115,6 @@ public class HomePageMenuView extends JFrame implements ActionListener{
 		}
 		else if(!CartHandler.getInstance().getCart().isEmpty()) {
 			if(e.getSource() == checkoutBtn) {
-				TransactionHandler.getInstance().setUser("barista");
 				TransactionHandler.getInstance().viewTransactionManagementForm();
 			}
 			else if(e.getSource() == cartManagementBtn) {
@@ -120,7 +123,6 @@ public class HomePageMenuView extends JFrame implements ActionListener{
 		}
 		
 		if(e.getSource() == manageProductBtn) {
-			ProductHandler.getInstance().setUser("productAdmin");
 			ProductHandler.getInstance().viewProductManagementForm();
 		}
 		if(e.getSource() == manageVoucherBtn) {

@@ -12,13 +12,18 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 import javax.swing.table.DefaultTableModel;
 
+import handlers.AuthHandler;
 import handlers.ProductHandler;
 import handlers.VoucherHandler;
 import models.Product;
@@ -26,6 +31,8 @@ import models.Voucher;
 
 public class VoucherManagementFormView extends JFrame implements ActionListener{
 
+	private JMenuBar menuBar;
+	private JMenu homeMenu;
 	private JLabel idLbl, discountLbl;
 	private JTextField idTxt, discountTxt;
 	private JButton generateBtn, deleteBtn;
@@ -36,6 +43,27 @@ public class VoucherManagementFormView extends JFrame implements ActionListener{
 	Object[] columns = {"ID", "Discount", "Status"};
 	
 	private void init() {
+		menuBar = new JMenuBar();
+		homeMenu = new JMenu("Home");
+		homeMenu.addMenuListener(new MenuListener() {
+			
+			@Override
+			public void menuSelected(MenuEvent e) {
+				AuthHandler.getInstance().viewHome();
+				dispose();
+			}
+			
+			@Override
+			public void menuDeselected(MenuEvent e) { }
+			
+			@Override
+			public void menuCanceled(MenuEvent e) {	}
+		});
+		
+		menuBar.add(homeMenu);
+		
+		setJMenuBar(menuBar);
+		
 		makeTable();
 		makeForm();
 		makeButton();

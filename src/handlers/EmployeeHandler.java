@@ -237,8 +237,8 @@ public class EmployeeHandler {
 		return false;
 	}
 	
-	public void viewEmployeeManagementForm(String employeePos) {
-		new EmployeeManagementFormView(employeePos);
+	public void viewEmployeeManagementForm() {
+		new EmployeeManagementFormView(AuthHandler.getInstance().getAuthUserPosition());
 	}
 
 }

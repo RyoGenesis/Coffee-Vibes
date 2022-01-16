@@ -6,12 +6,13 @@ import handlers.EmployeeHandler;
 import handlers.ProductHandler;
 import handlers.TransactionHandler;
 import handlers.VoucherHandler;
+import models.Employee;
 
 public class Main {
 
 	public Main() {
 		//temporary
-		AuthHandler.getInstance().viewLoginForm();
+//		AuthHandler.getInstance().viewLoginForm();
 		
 		//VIEW YG BS DIPAKE BARISTA
 //		ProductHandler.getInstance().setUser("barista");
@@ -31,7 +32,16 @@ public class Main {
 //		EmployeeHandler.getInstance().viewEmployeeManagementForm("Manager");
 		
 		//VIEW YG BS DIPAKE HRD
-//		EmployeeHandler.getInstance().viewEmployeeManagementForm("Human Resource Management");
+		//cara settingnya bikin employeenya dulu (ganti parameter pertama aja)
+		// 1 = product admin, 2 = manager, 3 = hrd, 4 = barista
+		Employee user = new Employee(1, "Joel", 25000, "hrd", "hrd");
+		AuthHandler.getInstance().setAuthUser(user);
+		
+		//pilih view tinggal di komen unkomen aja
+		EmployeeHandler.getInstance().viewEmployeeManagementForm();
+//		ProductHandler.getInstance().viewProductManagementForm();
+//		CartHandler.getInstance().viewCheckoutForm();
+//		TransactionHandler.getInstance().viewTransactionManagementForm();
 	}
 
 	public static void main(String[] args) {

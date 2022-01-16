@@ -19,7 +19,6 @@ public class TransactionHandler {
 	public static TransactionHandler transactionHandler = null;
 	public Transaction transaction;
 	private String message;
-	private String user;
 
 	public TransactionHandler() {
 		transaction = new Transaction();
@@ -31,14 +30,6 @@ public class TransactionHandler {
 			transactionHandler = new TransactionHandler();
 		}
 		return transactionHandler;
-	}
-	
-	public String getUser() {
-		return user;
-	}
-
-	public void setUser(String user) {
-		this.user = user;
 	}
 
 	public List<Transaction> getAllTransactions(){
@@ -143,7 +134,7 @@ public class TransactionHandler {
 	}
 	
 	public void viewTransactionManagementForm() {
-		new TransactionManagementFormView(getUser());
+		new TransactionManagementFormView(AuthHandler.getInstance().getAuthUserPosition());
 	}
 
 

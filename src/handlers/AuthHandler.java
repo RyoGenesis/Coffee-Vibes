@@ -1,23 +1,38 @@
 package handlers;
 
+import models.Employee;
 import views.HomePageMenuView;
 import views.LoginAuthenticationFormView;
 
 public class AuthHandler {
 	
 	public static AuthHandler authHandler = null;
-	private String user;
+	private static Employee user = null;
 
 	public AuthHandler() {
-		
+		user = new Employee();
 	}
 	
-	public String getUser() {
+	public Employee getAuthUser() {
 		return user;
 	}
+	
+	public String getAuthUserName() {
+		if (user!=null) {
+			return user.getName();			
+		}
+		return "";
+	}
+	
+	public int getAuthUserPosition() {
+		if (user!=null) {
+			return user.getPositionID();			
+		}
+		return 0;
+	}
 
-	public void setUser(String user) {
-		this.user = user;
+	public void setAuthUser(Employee user) {
+		AuthHandler.user = user;
 	}
 
 	public static AuthHandler getInstance() {
@@ -27,14 +42,15 @@ public class AuthHandler {
 		return authHandler;
 	}
 	
-//	public void loginAuth() {
-//		//unfinished
-//	}
+	public void loginAuth(String username, String password) {
+		
+	}
 //	
 //	public void logout() {
 //		//unfinished, temporary
 //		viewLoginForm();
 //	}
+	
 	public void viewHome() {
 		new HomePageMenuView(user);
 	}

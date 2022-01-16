@@ -12,14 +12,21 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
+import handlers.AuthHandler;
 import handlers.EmployeeHandler;
 import handlers.PositionHandler;
 import handlers.ProductHandler;
@@ -27,7 +34,9 @@ import models.Employee;
 import models.Position;
 
 public class EmployeeManagementFormView extends JFrame implements ActionListener{
-
+	
+	private JMenuBar menuBar;
+	private JMenu homeMenu;
 	private JLabel idLbl, nameLbl, positionLbl, salaryLbl, usernameLbl, passwordLbl;
 	private JTextField idTxt, nameTxt, positionTxt, salaryTxt, usernameTxt;
 	private JPasswordField passwordTxt;
@@ -36,10 +45,31 @@ public class EmployeeManagementFormView extends JFrame implements ActionListener
 	private DefaultTableModel dtm;
 	private JPanel contentPnl, formPnl, buttonPnl;
 	private JScrollPane tableScroll;
-	private String user;
+	private int userPos;
 	Object[] columns = {"ID", "Name", "Position", "Salary", "Username", "Password"};
 	
 	private void init() {
+		menuBar = new JMenuBar();
+		homeMenu = new JMenu("Home");
+		homeMenu.addMenuListener(new MenuListener() {
+			
+			@Override
+			public void menuSelected(MenuEvent e) {
+				AuthHandler.getInstance().viewHome();
+				dispose();
+			}
+			
+			@Override
+			public void menuDeselected(MenuEvent e) { }
+			
+			@Override
+			public void menuCanceled(MenuEvent e) {	}
+		});
+		
+		menuBar.add(homeMenu);
+		
+		setJMenuBar(menuBar);
+		
 		makeTable();
 		makeForm();
 		makeButton();
@@ -57,6 +87,8 @@ public class EmployeeManagementFormView extends JFrame implements ActionListener
 		tableScroll = new JScrollPane(table);
 		tableScroll.setPreferredSize(new Dimension(200, 200));
 		
+		
+		
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -66,14 +98,18 @@ public class EmployeeManagementFormView extends JFrame implements ActionListener
 				String position = (String)table.getValueAt(row, 2);
 				int salary = (int)table.getValueAt(row, 3);
 				String username = (String)table.getValueAt(row, 4);
-				String password = (String)table.getValueAt(row, 5);
 				
 				idTxt.setText(id + "");
 				nameTxt.setText(name);
 				positionTxt.setText(position);
 				salaryTxt.setText(salary + "");
 				usernameTxt.setText(username);
-				passwordTxt.setText(password);
+				
+				//if Human Resource Department
+				if (userPos == 3) {
+					String password = (String)table.getModel().getValueAt(row, 5);
+					passwordTxt.setText(password);					
+				}
 			}
 		});
 	}
@@ -84,16 +120,19 @@ public class EmployeeManagementFormView extends JFrame implements ActionListener
 		positionLbl = new JLabel("Position");
 		salaryLbl = new JLabel("Salary");
 		usernameLbl = new JLabel("Username");
-		passwordLbl = new JLabel("Password");
 		
 		idTxt = new JTextField();
 		nameTxt = new JTextField();
 		positionTxt = new JTextField();
 		salaryTxt = new JTextField();
 		usernameTxt = new JTextField();
-		passwordTxt = new JPasswordField();
 		
-		formPnl = new JPanel(new GridLayout(5, 2));
+		//if Human Resource Department
+		if(userPos == 3) {
+			formPnl = new JPanel(new GridLayout(6, 2));
+		}else {
+			formPnl = new JPanel(new GridLayout(5, 2));			
+		}
 		formPnl.add(idLbl);
 		formPnl.add(idTxt);
 		formPnl.add(nameLbl);
@@ -105,14 +144,20 @@ public class EmployeeManagementFormView extends JFrame implements ActionListener
 		formPnl.add(usernameLbl);
 		formPnl.add(usernameTxt);
 		
-		formPnl.add(passwordLbl);
-		formPnl.add(passwordTxt);	
+		//if Human Resource Department
+		if(userPos == 3) {
+			passwordLbl = new JLabel("Password");
+			passwordTxt = new JPasswordField();
+			formPnl.add(passwordLbl);
+			formPnl.add(passwordTxt);	
+		}
 	}
 	
 	private void makeButton() {
 		buttonPnl = new JPanel(new GridLayout(1, 4));
 		
-		if(user.equalsIgnoreCase("Human Resource Department")) {
+		//"if Human Resource Department"
+		if(userPos == 3) {
 			insertBtn = new JButton("Insert");
 			updateBtn = new JButton("Update");
 			
@@ -123,8 +168,8 @@ public class EmployeeManagementFormView extends JFrame implements ActionListener
 			buttonPnl.add(updateBtn);			
 		}
 		
-		deleteBtn.addActionListener(this);
 		deleteBtn = new JButton("Fire");
+		deleteBtn.addActionListener(this);
 		buttonPnl.add(deleteBtn);	
 	}
 
@@ -143,10 +188,11 @@ public class EmployeeManagementFormView extends JFrame implements ActionListener
 			dtm.addRow(new Object[] {id, name, positionName, salary, username, password});
 		}
 		table.setModel(dtm);
+		table.removeColumn(table.getColumnModel().getColumn(5));
 	}
 	
-	public EmployeeManagementFormView(String user) {
-		this.user = user;
+	public EmployeeManagementFormView(int userPos) {
+		this.userPos = userPos;
 		init();
 		setSize(500,500);
 		setTitle("Coffee Vibes - Employee Management");
@@ -160,6 +206,7 @@ public class EmployeeManagementFormView extends JFrame implements ActionListener
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
 		if(e.getSource() == insertBtn) {
 			insertEmployee();
 		}

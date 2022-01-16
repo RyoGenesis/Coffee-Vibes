@@ -12,13 +12,18 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 import javax.swing.table.DefaultTableModel;
 
+import handlers.AuthHandler;
 import handlers.CartHandler;
 import handlers.ProductHandler;
 import handlers.TransactionHandler;
@@ -30,7 +35,8 @@ import models.Voucher;
 
 public class TransactionManagementFormView extends JFrame implements ActionListener{
 	
-
+	private JMenuBar menuBar;
+	private JMenu homeMenu;
 	private JTable tableTransaction, tableTransactionItem;
 	private JLabel transactionTitleLbl, transactionIdLbl, purchaseDateLbl, voucherIdLbl, employeeIdLbl, priceLbl, totalPriceLbl;
 	private JLabel transactionIdTxt, purchaseDateTxt, priceTxt;
@@ -42,16 +48,17 @@ public class TransactionManagementFormView extends JFrame implements ActionListe
 	private JScrollPane tableTransactionHeaderScroll, tableTransactionItemScroll;
 	private Object[] columnTransactionHeaders = {"ID", "Purchase Date","Voucher ID", "Employee ID", "Total Price"};
 	private Object[] columnTransactionItems = {"Product ID", "Quantity"};
-	private String user;
+	private int userPos;
 	private int totalPayment;
 	
 	
-	public TransactionManagementFormView(String user) {
-		this.user = user;
+	public TransactionManagementFormView(int userPos) {
+		this.userPos = userPos;
 		initComp();
 		addComp();
 		setTitle("Coffee Vibes - Transaction Management");
-		if(user.equalsIgnoreCase("manager")) {
+		//if Manager
+		if(userPos == 2) {
 			setSize(500,500);
 			loadTransactionHeaderData();
 		}
@@ -66,7 +73,29 @@ public class TransactionManagementFormView extends JFrame implements ActionListe
 
 	
 	private void initComp() {
-		if(user.equalsIgnoreCase("manager")) {
+		menuBar = new JMenuBar();
+		homeMenu = new JMenu("Home");
+		homeMenu.addMenuListener(new MenuListener() {
+			
+			@Override
+			public void menuSelected(MenuEvent e) {
+				AuthHandler.getInstance().viewHome();
+				dispose();
+			}
+			
+			@Override
+			public void menuDeselected(MenuEvent e) { }
+			
+			@Override
+			public void menuCanceled(MenuEvent e) {	}
+		});
+		
+		menuBar.add(homeMenu);
+		
+		setJMenuBar(menuBar);
+		
+		//if Manager
+		if(userPos == 2) {
 			makeTransactionHeaderTable();
 			makeTransactionDetail();
 		}
@@ -179,7 +208,8 @@ public class TransactionManagementFormView extends JFrame implements ActionListe
 	}
 	
 	private void addComp() {
-		if(user.equalsIgnoreCase("manager")) {
+		//if Manager
+		if(userPos == 2) {
 			tableTransaction.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
