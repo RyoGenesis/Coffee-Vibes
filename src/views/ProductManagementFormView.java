@@ -161,7 +161,7 @@ public class ProductManagementFormView extends JFrame implements ActionListener{
 		setSize(500,500);
 		setTitle("Coffee Vibes - Product Management");
 		loadData();
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+//		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);

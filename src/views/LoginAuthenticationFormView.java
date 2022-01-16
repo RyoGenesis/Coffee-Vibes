@@ -22,7 +22,6 @@ public class LoginAuthenticationFormView extends JFrame implements ActionListene
 	private void init() {
 		textLbl = new JLabel("Login As");
 		textLbl.setHorizontalAlignment(JLabel.CENTER);
-		textLbl.setVerticalAlignment(JLabel.CENTER);
 		
 		baristaBtn = new JButton("Barista");
 		baristaBtn.addActionListener(this);
