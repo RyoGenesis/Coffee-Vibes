@@ -80,7 +80,7 @@ public class CartManagementFormView extends JFrame implements ActionListener{
 		dtm = new DefaultTableModel(columns, 0);
 		table = new JTable(dtm);
 		tableScroll = new JScrollPane(table);
-		tableScroll.setPreferredSize(new Dimension(300, 350));
+		tableScroll.setPreferredSize(new Dimension(300, 330));
 		
 		table.addMouseListener(new MouseAdapter() {
 			@Override

@@ -25,15 +25,17 @@ public class HomePageMenuView extends JFrame implements ActionListener{
 	JButton logoutBtn;
 	JButton addToCartBtn, checkoutBtn, cartManagementBtn;
 	JButton manageProductBtn, manageVoucherBtn;
+	JButton manageTransactionBtn, manageEmployeeBtn;
 	JLabel textLbl;
 	private Employee user;
 	
 	private void init() {
 		logoutBtn = new JButton("Logout");
 		logoutBtn.addActionListener(this);
+		
 		//if Barista
 		if(user.getPositionID() == 4) {
-			textLbl = new JLabel("Barista");
+			textLbl = new JLabel("Hello, " + user.getName() +" (Barista)");
 			textLbl.setHorizontalAlignment(JLabel.CENTER);
 			
 			addToCartBtn = new JButton("Add to Cart");
@@ -59,7 +61,7 @@ public class HomePageMenuView extends JFrame implements ActionListener{
 		}
 		//if Product Admin
 		else if(user.getPositionID() == 1) {
-			textLbl = new JLabel("Product Admin");
+			textLbl = new JLabel("Hello, " + user.getName() +" (Product Admin)");
 			textLbl.setHorizontalAlignment(JLabel.CENTER);
 			
 			manageProductBtn = new JButton("Manage Product");
@@ -82,7 +84,26 @@ public class HomePageMenuView extends JFrame implements ActionListener{
 		}
 		//if Manager
 		else if(user.getPositionID() == 2) {
-			//ISI
+			textLbl = new JLabel("Hello, " + user.getName() +" (Manager)");
+			textLbl.setHorizontalAlignment(JLabel.CENTER);
+			
+			manageProductBtn = new JButton("View Transaction");
+			manageProductBtn.addActionListener(this);
+			manageVoucherBtn = new JButton("Manage Employee");
+			manageVoucherBtn.addActionListener(this);
+			
+			GridLayout gridLayout = new GridLayout(5, 1);
+			gridLayout.setVgap(50);
+			buttonPnl = new JPanel(gridLayout);
+			buttonPnl.add(manageProductBtn);
+			buttonPnl.add(manageVoucherBtn);
+			buttonPnl.add(logoutBtn);
+			
+			BorderLayout borderLayout = new BorderLayout();
+			contentPnl = new JPanel(borderLayout);
+			contentPnl.add(BorderLayout.CENTER, textLbl);
+			contentPnl.add(BorderLayout.SOUTH, buttonPnl);
+			add(contentPnl);
 		}
 		//if Human Resource Manager
 		else if(user.getPositionID() == 3) {
@@ -109,6 +130,7 @@ public class HomePageMenuView extends JFrame implements ActionListener{
 		}
 		if(e.getSource() == addToCartBtn) {
 			ProductHandler.getInstance().viewProductManagementForm();
+			dispose();
 		}
 		if(CartHandler.getInstance().getCart().isEmpty() && (e.getSource() == checkoutBtn || e.getSource() == cartManagementBtn)) {
 			JOptionPane.showMessageDialog(this, "Your cart is empty!\nPlease do Add to Cart first!");
@@ -116,17 +138,21 @@ public class HomePageMenuView extends JFrame implements ActionListener{
 		else if(!CartHandler.getInstance().getCart().isEmpty()) {
 			if(e.getSource() == checkoutBtn) {
 				TransactionHandler.getInstance().viewTransactionManagementForm();
+				dispose();
 			}
 			else if(e.getSource() == cartManagementBtn) {
 				CartHandler.getInstance().viewCheckoutForm();
+				dispose();
 			}
 		}
 		
 		if(e.getSource() == manageProductBtn) {
 			ProductHandler.getInstance().viewProductManagementForm();
+			dispose();
 		}
 		if(e.getSource() == manageVoucherBtn) {
 			VoucherHandler.getInstance().viewVoucherManagementForm();
+			dispose();
 		}
 	}
 

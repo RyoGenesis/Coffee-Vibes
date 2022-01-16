@@ -34,13 +34,13 @@ public class Main {
 		//VIEW YG BS DIPAKE HRD
 		//cara settingnya bikin employeenya dulu (ganti parameter pertama aja)
 		// 1 = product admin, 2 = manager, 3 = hrd, 4 = barista
-		Employee user = new Employee(1, "Joel", 25000, "hrd", "hrd");
+		Employee user = new Employee(4, "Joel", 25000, "hrd", "hrd");
 		AuthHandler.getInstance().setAuthUser(user);
 		
 		//pilih view tinggal di komen unkomen aja
-		EmployeeHandler.getInstance().viewEmployeeManagementForm();
+//		EmployeeHandler.getInstance().viewEmployeeManagementForm();
 //		ProductHandler.getInstance().viewProductManagementForm();
-//		CartHandler.getInstance().viewCheckoutForm();
+		CartHandler.getInstance().viewCheckoutForm();
 //		TransactionHandler.getInstance().viewTransactionManagementForm();
 	}
 
