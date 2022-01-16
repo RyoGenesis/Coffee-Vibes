@@ -263,7 +263,7 @@ public class TransactionManagementFormView extends JFrame implements ActionListe
 		int dialog = JOptionPane.showConfirmDialog(this, "Confirm checkout?");
 		if(dialog == JOptionPane.YES_OPTION) {
 			Transaction t = TransactionHandler.getInstance().insertTransaction(voucherId, employeeId, totalPayment);
-			JOptionPane.showMessageDialog(this, VoucherHandler.getInstance().getMessage());
+			JOptionPane.showMessageDialog(this, TransactionHandler.getInstance().getMessage());
 			if(t != null) {
 				dispose();
 			}
