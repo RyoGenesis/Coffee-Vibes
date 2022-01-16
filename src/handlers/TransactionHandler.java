@@ -93,7 +93,7 @@ public class TransactionHandler {
 			for (CartItem cartItem : cartItems) {
 				int productID = cartItem.getProduct().getProductID();
 				int quantity = cartItem.getQuantity();
-				int stock = cartItem.getProduct().getStock();
+				int stock = cartItem.getProduct().getStock() - quantity;
 				ProductHandler.getInstance().updateProductStock(productID, stock);
 				TransactionItem item = new TransactionItem(insertedTransactionID, productID, quantity);
 				item.insertTransactionItem();
@@ -101,7 +101,7 @@ public class TransactionHandler {
 			CartHandler.getInstance().clearCart();
 			
 			message = "Success Checkout!";
-			return transaction.insertTransaction();
+			return transaction;
 		}
 		return null;
 	}
