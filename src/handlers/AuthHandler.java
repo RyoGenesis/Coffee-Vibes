@@ -42,14 +42,28 @@ public class AuthHandler {
 		return authHandler;
 	}
 	
-	public void loginAuth(String username, String password) {
+	public boolean loginAuth(String username, String password) {
 		
+		if(username.equals("") || password.equals("")) {
+			return false;
+		}
+		
+		Employee authUser = EmployeeHandler.getInstance().getEmployee(username);
+		
+		if(authUser == null) return false;
+		
+		if(authUser.getPassword().equals(password)) {
+			user = authUser;
+			return true;
+		}
+		
+		return false;
 	}
-//	
-//	public void logout() {
-//		//unfinished, temporary
-//		viewLoginForm();
-//	}
+	
+	public void logout() {
+		user = null;
+		viewLoginForm();
+	}
 	
 	public void viewHome() {
 		new HomePageMenuView(user);

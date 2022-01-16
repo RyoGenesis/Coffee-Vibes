@@ -65,7 +65,7 @@ public class TransactionManagementFormView extends JFrame implements ActionListe
 		else {
 			setSize(500,250);
 		}
-//		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);		

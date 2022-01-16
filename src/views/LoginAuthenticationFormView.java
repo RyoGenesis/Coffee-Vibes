@@ -2,13 +2,16 @@ package views;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -17,8 +20,8 @@ import handlers.AuthHandler;
 
 public class LoginAuthenticationFormView extends JFrame implements ActionListener{
 	
-	JPanel contentPnl, buttonPnl;
-	JButton baristaBtn, productAdminBtn, managerBtn, hrdBtn;
+	JPanel contentPnl, buttonPnl, formPnl, wrapperPnl;
+	JButton baristaBtn, productAdminBtn, managerBtn, hrdBtn, loginBtn;
 	JTextField usernameTxt;
 	JPasswordField passwordTxt;
 	JLabel textLbl, usernameLbl, passwordLbl;
@@ -27,28 +30,42 @@ public class LoginAuthenticationFormView extends JFrame implements ActionListene
 		textLbl = new JLabel("Login To Coffee Vibes");
 		textLbl.setHorizontalAlignment(JLabel.CENTER);
 		
-		baristaBtn = new JButton("Barista");
-		baristaBtn.addActionListener(this);
-		productAdminBtn = new JButton("Product Admin");
-		productAdminBtn.addActionListener(this);
-		managerBtn = new JButton("Manager");
-		managerBtn.addActionListener(this);
-		hrdBtn = new JButton("Human Resource Department");
-		hrdBtn.addActionListener(this);
+		makeLoginForm();
 		
-		GridLayout gridLayout = new GridLayout(3, 1);
-		gridLayout.setVgap(50);
-		buttonPnl = new JPanel(gridLayout);
-		buttonPnl.add(baristaBtn);
-		buttonPnl.add(productAdminBtn);
-		buttonPnl.add(managerBtn);
-		buttonPnl.add(hrdBtn);
+		loginBtn = new JButton("Login");
+		loginBtn.setPreferredSize(new Dimension(100,30));
+		loginBtn.addActionListener(this);
 		
-		BorderLayout borderLayout = new BorderLayout();
+		buttonPnl = new JPanel(new FlowLayout());
+		buttonPnl.add(loginBtn);
+		
+		BorderLayout borderLayout = new BorderLayout(0,30);
 		contentPnl = new JPanel(borderLayout);
-		contentPnl.add(BorderLayout.CENTER, textLbl);
+		contentPnl.setPreferredSize(new Dimension(250,170));
+		contentPnl.add(BorderLayout.NORTH, textLbl);
+		contentPnl.add(BorderLayout.CENTER, formPnl);
 		contentPnl.add(BorderLayout.SOUTH, buttonPnl);
-		add(contentPnl);
+		
+		wrapperPnl = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		wrapperPnl.add(contentPnl);
+		wrapperPnl.setPreferredSize(new Dimension(350,350));
+		wrapperPnl.setBorder(BorderFactory.createEmptyBorder(100, 0, 0, 0));
+		add(wrapperPnl);
+	}
+
+	private void makeLoginForm() {
+		
+		usernameLbl = new JLabel("Username");
+		passwordLbl = new JLabel("Password");
+		usernameTxt = new JTextField();
+		passwordTxt = new JPasswordField();
+			
+		formPnl = new JPanel(new GridLayout(2, 2));			
+		formPnl.add(usernameLbl);
+		formPnl.add(usernameTxt);
+		formPnl.add(passwordLbl);
+		formPnl.add(passwordTxt);
+		
 	}
 
 	public LoginAuthenticationFormView() {
@@ -63,19 +80,18 @@ public class LoginAuthenticationFormView extends JFrame implements ActionListene
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == baristaBtn) {
-//			AuthHandler.getInstance().setUser("barista");
+		if(e.getSource() == loginBtn) {
+			String username = usernameTxt.getText();
+			String password = new String(passwordTxt.getPassword());
+			
+			boolean authenticated = AuthHandler.getInstance().loginAuth(username, password);
+			if(authenticated) {
+				AuthHandler.getInstance().viewHome();
+				dispose();
+			}
+			else {
+				JOptionPane.showMessageDialog(this, "Invalid username and password combination!");
+			}
 		}
-		else if(e.getSource() == productAdminBtn) {
-//			AuthHandler.getInstance().setUser("productAdmin");
-		}
-		else if(e.getSource() == managerBtn) {
-//			AuthHandler.getInstance().setUser("manager");
-		}
-		else if(e.getSource() == hrdBtn) {
-//			AuthHandler.getInstance().setUser("hrd");
-		}
-		AuthHandler.getInstance().viewHome();
-		dispose();
 	}
 }

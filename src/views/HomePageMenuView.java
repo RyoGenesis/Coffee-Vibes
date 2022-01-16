@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -14,6 +15,7 @@ import javax.swing.JPanel;
 
 import handlers.AuthHandler;
 import handlers.CartHandler;
+import handlers.EmployeeHandler;
 import handlers.ProductHandler;
 import handlers.TransactionHandler;
 import handlers.VoucherHandler;
@@ -33,81 +35,72 @@ public class HomePageMenuView extends JFrame implements ActionListener{
 		logoutBtn = new JButton("Logout");
 		logoutBtn.addActionListener(this);
 		
-		//if Barista
-		if(user.getPositionID() == 4) {
-			textLbl = new JLabel("Hello, " + user.getName() +" (Barista)");
-			textLbl.setHorizontalAlignment(JLabel.CENTER);
-			
-			addToCartBtn = new JButton("Add to Cart");
-			addToCartBtn.addActionListener(this);
-			checkoutBtn = new JButton("Checkout Transaction");
-			checkoutBtn.addActionListener(this);
-			cartManagementBtn = new JButton("Cart Management");
-			cartManagementBtn.addActionListener(this);
-			
+		if (user != null) {
 			GridLayout gridLayout = new GridLayout(5, 1);
 			gridLayout.setVgap(50);
 			buttonPnl = new JPanel(gridLayout);
-			buttonPnl.add(addToCartBtn);
-			buttonPnl.add(checkoutBtn);
-			buttonPnl.add(cartManagementBtn);
+			
+			//if Barista
+			if(user.getPositionID() == 4) {
+				textLbl = new JLabel("Hello, " + user.getName() +" (Barista)");
+				textLbl.setHorizontalAlignment(JLabel.CENTER);
+				
+				addToCartBtn = new JButton("Add to Cart");
+				addToCartBtn.addActionListener(this);
+				checkoutBtn = new JButton("Checkout Transaction");
+				checkoutBtn.addActionListener(this);
+				cartManagementBtn = new JButton("Cart Management");
+				cartManagementBtn.addActionListener(this);
+				
+				buttonPnl.add(addToCartBtn);
+				buttonPnl.add(checkoutBtn);
+				buttonPnl.add(cartManagementBtn);
+			}
+			//if Product Admin
+			else if(user.getPositionID() == 1) {
+				textLbl = new JLabel("Hello, " + user.getName() +" (Product Admin)");
+				textLbl.setHorizontalAlignment(JLabel.CENTER);
+				
+				manageProductBtn = new JButton("Manage Product");
+				manageProductBtn.addActionListener(this);
+				manageVoucherBtn = new JButton("Manage Voucher");
+				manageVoucherBtn.addActionListener(this);
+				
+				buttonPnl.add(manageProductBtn);
+				buttonPnl.add(manageVoucherBtn);
+			}
+			//if Manager
+			else if(user.getPositionID() == 2) {
+				textLbl = new JLabel("Hello, " + user.getName() +" (Manager)");
+				textLbl.setHorizontalAlignment(JLabel.CENTER);
+				
+				manageTransactionBtn = new JButton("View Transaction");
+				manageTransactionBtn.addActionListener(this);
+				manageEmployeeBtn = new JButton("Manage Employee");
+				manageEmployeeBtn.addActionListener(this);
+	
+				buttonPnl.add(manageTransactionBtn);
+				buttonPnl.add(manageEmployeeBtn);	
+			}
+			//if Human Resource Manager (user Position ID = 3
+			else {
+				textLbl = new JLabel("Hello, " + user.getName() +" (Human Resource Department)");
+				textLbl.setHorizontalAlignment(JLabel.CENTER);
+
+				manageEmployeeBtn = new JButton("Manage Employee");
+				manageEmployeeBtn.addActionListener(this);
+
+				buttonPnl.add(manageEmployeeBtn);	
+			}
+			
 			buttonPnl.add(logoutBtn);
 			
 			BorderLayout borderLayout = new BorderLayout();
 			contentPnl = new JPanel(borderLayout);
 			contentPnl.add(BorderLayout.CENTER, textLbl);
 			contentPnl.add(BorderLayout.SOUTH, buttonPnl);
+			contentPnl.setBorder(BorderFactory.createEmptyBorder(0, 50, 50, 50));
 			add(contentPnl);
-		}
-		//if Product Admin
-		else if(user.getPositionID() == 1) {
-			textLbl = new JLabel("Hello, " + user.getName() +" (Product Admin)");
-			textLbl.setHorizontalAlignment(JLabel.CENTER);
-			
-			manageProductBtn = new JButton("Manage Product");
-			manageProductBtn.addActionListener(this);
-			manageVoucherBtn = new JButton("Manage Voucher");
-			manageVoucherBtn.addActionListener(this);
-			
-			GridLayout gridLayout = new GridLayout(5, 1);
-			gridLayout.setVgap(50);
-			buttonPnl = new JPanel(gridLayout);
-			buttonPnl.add(manageProductBtn);
-			buttonPnl.add(manageVoucherBtn);
-			buttonPnl.add(logoutBtn);
-			
-			BorderLayout borderLayout = new BorderLayout();
-			contentPnl = new JPanel(borderLayout);
-			contentPnl.add(BorderLayout.CENTER, textLbl);
-			contentPnl.add(BorderLayout.SOUTH, buttonPnl);
-			add(contentPnl);
-		}
-		//if Manager
-		else if(user.getPositionID() == 2) {
-			textLbl = new JLabel("Hello, " + user.getName() +" (Manager)");
-			textLbl.setHorizontalAlignment(JLabel.CENTER);
-			
-			manageProductBtn = new JButton("View Transaction");
-			manageProductBtn.addActionListener(this);
-			manageVoucherBtn = new JButton("Manage Employee");
-			manageVoucherBtn.addActionListener(this);
-			
-			GridLayout gridLayout = new GridLayout(5, 1);
-			gridLayout.setVgap(50);
-			buttonPnl = new JPanel(gridLayout);
-			buttonPnl.add(manageProductBtn);
-			buttonPnl.add(manageVoucherBtn);
-			buttonPnl.add(logoutBtn);
-			
-			BorderLayout borderLayout = new BorderLayout();
-			contentPnl = new JPanel(borderLayout);
-			contentPnl.add(BorderLayout.CENTER, textLbl);
-			contentPnl.add(BorderLayout.SOUTH, buttonPnl);
-			add(contentPnl);
-		}
-		//if Human Resource Manager
-		else if(user.getPositionID() == 3) {
-			//ISI
 		}
 	}
 	
@@ -125,7 +118,7 @@ public class HomePageMenuView extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == logoutBtn) {
-			AuthHandler.getInstance().viewLoginForm();
+			AuthHandler.getInstance().logout();
 			dispose();
 		}
 		if(e.getSource() == addToCartBtn) {
@@ -152,6 +145,16 @@ public class HomePageMenuView extends JFrame implements ActionListener{
 		}
 		if(e.getSource() == manageVoucherBtn) {
 			VoucherHandler.getInstance().viewVoucherManagementForm();
+			dispose();
+		}
+		
+		if(e.getSource() == manageTransactionBtn) {
+			TransactionHandler.getInstance().viewTransactionManagementForm();
+			dispose();
+		}
+		
+		if(e.getSource() == manageEmployeeBtn) {
+			EmployeeHandler.getInstance().viewEmployeeManagementForm();
 			dispose();
 		}
 	}

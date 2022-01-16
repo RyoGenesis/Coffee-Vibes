@@ -122,6 +122,7 @@ public class EmployeeManagementFormView extends JFrame implements ActionListener
 		usernameLbl = new JLabel("Username");
 		
 		idTxt = new JTextField();
+		idTxt.setEditable(false);
 		nameTxt = new JTextField();
 		positionTxt = new JTextField();
 		salaryTxt = new JTextField();
@@ -242,7 +243,7 @@ public class EmployeeManagementFormView extends JFrame implements ActionListener
 		int option = JOptionPane.showConfirmDialog(this, "Confirm Update Employee?");
 		if(option == JOptionPane.YES_OPTION) {
 			Employee employee = EmployeeHandler.getInstance().updateEmployee(id, name, salary, username, password);
-			JOptionPane.showMessageDialog(this, ProductHandler.getInstance().getMessage());
+			JOptionPane.showMessageDialog(this, EmployeeHandler.getInstance().getMessage());
 			if(employee != null) {
 				loadData();
 			}
@@ -256,7 +257,7 @@ public class EmployeeManagementFormView extends JFrame implements ActionListener
 		int option = JOptionPane.showConfirmDialog(this, "Confirm Fire Employee?");
 		if(option == JOptionPane.YES_OPTION) {
 			boolean fired = EmployeeHandler.getInstance().fireEmployee(id);
-			JOptionPane.showMessageDialog(this, ProductHandler.getInstance().getMessage());
+			JOptionPane.showMessageDialog(this, EmployeeHandler.getInstance().getMessage());
 			if(fired) {
 				loadData();
 			}
