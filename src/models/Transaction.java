@@ -107,7 +107,6 @@ public class Transaction {
 		return transaction;
 	}
 	
-	
 	public List<Transaction> getAllTransactions() {
 		Connect con =  Connect.getConnection();
 		List<Transaction> transactions = new Vector<>();
@@ -127,6 +126,25 @@ public class Transaction {
 			// TODO: handle exception
 		}
 		return transactions;
+	}
+	
+	public Transaction getLastTransaction() {
+		Connect con =  Connect.getConnection();
+		Transaction transaction = null;
+		try {
+			ResultSet resultSet = con.executeQuery("SELECT * FROM transactionheader ORDER BY ID DESC LIMIT 1");
+			if(resultSet.next()) {
+				int transactionID = resultSet.getInt(1);
+				LocalDate purchaseDate= resultSet.getDate(2).toLocalDate();
+				int voucherID = resultSet.getInt(3);
+				int employeeID = resultSet.getInt(4);
+				int totalPrice = resultSet.getInt(5);
+				transaction = new Transaction(transactionID, purchaseDate, voucherID, employeeID, totalPrice);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return transaction;
 	}
 	
 	public List<TransactionItem> getTransactionDetail(int transactionID) {
