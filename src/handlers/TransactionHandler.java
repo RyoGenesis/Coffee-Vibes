@@ -55,7 +55,7 @@ public class TransactionHandler {
 	
 	public Transaction insertTransaction(String voucherID, String employeeID, int totalPayment) {
 		message = "";
-		Integer intVoucherID = null;
+		int intVoucherID = 0;
 		if(!voucherID.equals("")) {
 			intVoucherID = Integer.parseInt(voucherID);
 		}
@@ -80,7 +80,7 @@ public class TransactionHandler {
 		}
 		
 		if(message.equals("")) {
-			if(intVoucherID != null) {
+			if(intVoucherID != 0) {
 				VoucherHandler.getInstance().deleteVoucher(voucherID);
 			}
 
