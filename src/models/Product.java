@@ -13,7 +13,7 @@ public class Product {
 	private String name;
 	private String description;
 	private int price;
-	private int stock = 0;
+	private int stock;
 
 	public Product(int productID, String name, String description, int price, int stock) {
 		super();
@@ -154,7 +154,7 @@ public class Product {
 	public Product updateProduct() {
 		Connect con =  Connect.getConnection();
 		Product product = null;
-		if(stock == 0) {
+		if(name != null && description != null && price != 0) {
 			product = new Product(productID, name, description, price);
 			try {
 				PreparedStatement preparedStatement = con.prepareStatement("UPDATE product SET Name = ?, Description = ?, Price = ? WHERE ID = ?");
