@@ -56,7 +56,7 @@ public class Voucher {
 	public Voucher generateVoucher() {
 		Connect con =  Connect.getConnection();
 		try {
-			PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO voucher VALUES(default,?,?)");
+			PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO voucher VALUES(default,?,?,default)");
 			preparedStatement.setInt(1, discount);
 			preparedStatement.setString(2, status);
 			preparedStatement.execute();
