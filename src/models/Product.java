@@ -13,7 +13,7 @@ public class Product {
 	private String name;
 	private String description;
 	private int price;
-	private int stock;
+	private int stock = 0;
 
 	public Product(int productID, String name, String description, int price, int stock) {
 		super();
@@ -40,6 +40,12 @@ public class Product {
 		this.price = price;
 	}
 	
+	public Product(int productID, int stock) {
+		super();
+		this.productID = productID;
+		this.stock = stock;
+	}
+
 	public Product(int productID) {
 		super();
 		this.productID = productID;
@@ -147,16 +153,30 @@ public class Product {
 	
 	public Product updateProduct() {
 		Connect con =  Connect.getConnection();
-		Product product = new Product(productID, name, description, price);
-		try {
-			PreparedStatement preparedStatement = con.prepareStatement("UPDATE product SET Name = ?, Description = ?, Price = ? WHERE ID = ?");
-			preparedStatement.setString(1, name);
-			preparedStatement.setString(2, description);
-			preparedStatement.setInt(3, price);
-			preparedStatement.setInt(4, productID);
-			preparedStatement.executeUpdate();
-		} catch (Exception e) {
-			// TODO: handle exception
+		Product product = null;
+		if(stock == 0) {
+			product = new Product(productID, name, description, price);
+			try {
+				PreparedStatement preparedStatement = con.prepareStatement("UPDATE product SET Name = ?, Description = ?, Price = ? WHERE ID = ?");
+				preparedStatement.setString(1, name);
+				preparedStatement.setString(2, description);
+				preparedStatement.setInt(3, price);
+				preparedStatement.setInt(4, productID);
+				preparedStatement.executeUpdate();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+		else {//updateProductStock
+			product = new Product(productID, stock);
+			try {
+				PreparedStatement preparedStatement = con.prepareStatement("UPDATE product SET Stock = ? WHERE ID = ?");
+				preparedStatement.setInt(1, stock);
+				preparedStatement.setInt(2, productID);
+				preparedStatement.executeUpdate();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
 		}
 		return product;
 	}
