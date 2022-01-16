@@ -11,7 +11,7 @@ public class Main {
 
 	public Main() {
 		//temporary
-//		AuthHandler.getInstance().viewLoginForm();
+		AuthHandler.getInstance().viewLoginForm();
 		
 		//VIEW YG BS DIPAKE BARISTA
 //		ProductHandler.getInstance().setUser("barista");

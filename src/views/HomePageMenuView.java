@@ -78,10 +78,10 @@ public class HomePageMenuView extends JFrame implements ActionListener{
 			add(contentPnl);
 		}
 		else if(user.equalsIgnoreCase("manager")) {
-			
+			//ISI
 		}
 		else if(user.equalsIgnoreCase("hrd")) {
-			
+			//ISI
 		}
 	}
 	
