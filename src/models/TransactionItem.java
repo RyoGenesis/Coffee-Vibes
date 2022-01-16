@@ -1,5 +1,9 @@
 package models;
 
+import java.sql.PreparedStatement;
+
+import connect.Connect;
+
 public class TransactionItem {
 
 	private int transactionID;
@@ -31,6 +35,18 @@ public class TransactionItem {
 		this.quantity = quantity;
 	}
 	
-	
-
+	public TransactionItem insertTransactionItem() {
+		Connect con =  Connect.getConnection();
+		try {
+			PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO transactiondetail VALUES(?,?,?)");
+			preparedStatement.setInt(1, transactionID);
+			preparedStatement.setInt(2, productID);
+			preparedStatement.setInt(3, quantity);
+			preparedStatement.execute();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		TransactionItem item = new TransactionItem(transactionID, productID, quantity);
+		return item;
+	}
 }
